@@ -75,7 +75,7 @@ public class PickActivity extends ListActivity  {
 		xmlReader = factory.newSAXParser();
 		ItemHandler handler = new ItemHandler();
 
-		URL source = new URL(RSS.URL_HOTEL);
+		URL source = new URL(fr.univmed.erss.object.URL_HOTEL);
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
 		
