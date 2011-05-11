@@ -16,5 +16,6 @@
         </activity>
 
 		<activity android:name="PickActivity"/>
+		<activity android:name="FluxActivity"/>
     </application>
 </manifest>
