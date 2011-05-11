@@ -19,6 +19,8 @@ public class ItemHandler extends DefaultHandler {
 	private String title;
 	private String description;
 	private String link;
+	private String language;
+	private String category;
 	
 	public List<Item> getItems() {
 		return items;
@@ -45,6 +47,10 @@ public class ItemHandler extends DefaultHandler {
 			description = new StringBuffer().toString();
 		} else if(item==null && localName.equals("link")) {
 			link = new StringBuffer().toString();
+		} else if(item==null && localName.equals("category")) {
+			category = new StringBuffer().toString();
+		} else if(item==null && localName.equals("language")) {
+			language = new StringBuffer().toString();
 		}
 	}
 
@@ -80,6 +86,8 @@ public class ItemHandler extends DefaultHandler {
 			item.setLink(buffer.toString());
 		} else if (localName.equals("pubDate")) {
 			item.setPubDate(buffer.toString());
+		} else if (localName.equals("category")) {
+			item.setCategory(buffer.toString());
 		}
 		buffer = null;
 	}

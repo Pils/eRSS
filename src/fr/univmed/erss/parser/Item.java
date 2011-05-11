@@ -7,6 +7,7 @@ public class Item {
 	private String guid;
 	private String link;
 	private String pubDate;
+	private String category;
 	
 	public Item() {}
 	
@@ -55,5 +56,13 @@ public class Item {
 
 	public void setPubDate(String pubDate) {
 		this.pubDate = pubDate;
+	}
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }
