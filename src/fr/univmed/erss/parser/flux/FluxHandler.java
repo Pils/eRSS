@@ -16,7 +16,7 @@ public class FluxHandler extends DefaultHandler{
 
 	private static final String LOG_TAG = "FluxHandler";
 	
-	private static String url_source = "http://pierrelouis.conte.perso.esil.univmed.fr/adresse_flux_rss.xml"; //TODO completer url
+	public static final String URL_SOURCE= "http://pierre-louis.conte.perso.esil.univmed.fr/adresse_flux_rss.xml";
 	
 	private Flux flux;
 	private String name;

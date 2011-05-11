@@ -11,7 +11,7 @@ public class HomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		       
-		Intent intent = new Intent(this, PickActivity.class);
+		Intent intent = new Intent(this, FluxActivity.class);
 		startActivity(intent);
 	}
 

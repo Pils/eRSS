@@ -2,6 +2,9 @@ package fr.univmed.erss.object;
 
 public class Flux {
 	
+	public final static String URL_HOTEL = "http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml";
+	public final static String URL_AGENDA = "http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml";
+	
 	public long id;
 	public String name;
 	public String url;

@@ -13,6 +13,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fr.univmed.erss.object.Flux;
 import fr.univmed.erss.parser.Item;
 import fr.univmed.erss.parser.ItemHandler;
 import android.app.ListActivity;
