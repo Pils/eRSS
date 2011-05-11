@@ -2,6 +2,7 @@ package fr.univmed.erss;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import fr.univmed.erss.parser.Item;
 import fr.univmed.erss.parser.ItemHandler;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,19 +29,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PickActivity extends ListActivity  {
+public class PickActivity extends ListActivity {
 	// TAG for log information provided by this class .
 	private final String TAG = "PickActivity";
 
 	private List<Item> items = new LinkedList<Item>();
 	private EfficientAdapter mAdapter;
-	
+	private HashMap<String, Bitmap> strImg = new HashMap<String, Bitmap>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
 
@@ -46,9 +50,9 @@ public class PickActivity extends ListActivity  {
 		setListAdapter(mAdapter);
 
 		new ThreadParse().execute();
-		
+
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -75,12 +79,11 @@ public class PickActivity extends ListActivity  {
 		xmlReader = factory.newSAXParser();
 		ItemHandler handler = new ItemHandler();
 
-		URL source = new URL(fr.univmed.erss.object.URL_HOTEL);
+		URL source = new URL(RSS.URL_AGENDA);
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
-		
 
-		//xmlReader.parse(getAssets().open("promotions_hotels.xml"), handler);
+		// xmlReader.parse(getAssets().open("promotions_hotels.xml"), handler);
 
 		items = handler.getItems();
 	}
@@ -123,6 +126,22 @@ public class PickActivity extends ListActivity  {
 				mAdapter.notifyDataSetChanged();
 				Toast.makeText(PickActivity.this, "List Updated",
 						Toast.LENGTH_SHORT).show();
+				for (int i = 0; i < items.size(); i++) {
+					if (!strImg.containsKey(items.get(i).getCategory())) {
+						// drawable name
+						String drawableName = items.get(i).getCategory()
+								.toLowerCase();
+						// drawable id from name
+						int drawableId = getResources().getIdentifier(drawableName,
+								"drawable", "fr.univmed.erss"); // package name not
+																// good idea .
+						// retreive bitmap
+						Bitmap icon = BitmapFactory.decodeResource(getResources(),
+								drawableId);
+
+						strImg.put(items.get(i).getCategory(), icon);
+					}
+				}
 			} else {
 				Toast.makeText(PickActivity.this, "Update Fail",
 						Toast.LENGTH_SHORT).show();
@@ -136,9 +155,11 @@ public class PickActivity extends ListActivity  {
 	 */
 	private class EfficientAdapter extends BaseAdapter {
 		private LayoutInflater mInflater;
+		private Bitmap defaultIcon;
 
 		class ViewHolder {
 			TextView text;
+			ImageView icon;
 		}
 
 		public EfficientAdapter() {
@@ -197,11 +218,13 @@ public class PickActivity extends ListActivity  {
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.list_item_icon_text,
 						null);
+
 				// Creates a ViewHolder and store references to the two children
 				// views
 				// we want to bind data to.
 				holder = new ViewHolder();
 				holder.text = (TextView) convertView.findViewById(R.id.text);
+				holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 
 				convertView.setTag(holder);
 			} else {
@@ -210,11 +233,13 @@ public class PickActivity extends ListActivity  {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
+			Bitmap icon = strImg.get(items.get(position).getCategory());
+
 			// Bind the data efficiently with the holder.
 			holder.text.setText(items.get(position).getTitle());
+			holder.icon.setImageBitmap((icon) != null ? icon : defaultIcon);
 
 			return convertView;
 		}
 	}
-
 }

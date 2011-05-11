@@ -3,6 +3,7 @@ package fr.univmed.erss.object;
 public class RSS {
 	
 	public long id;
+	public String name;
 	public String url;
 //= "http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml";
 //= "http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml";
@@ -25,7 +26,12 @@ public class RSS {
 	//-----------------------------------------------------//
 	//				Getters & Setters					   //
 	//-----------------------------------------------------//
-	
+	public void setName (String name) {
+		this.name = name;
+	}
+	public String getName () {
+		return name;
+	}
 	public void setId (long id) {
 		this.id = id;
 	}

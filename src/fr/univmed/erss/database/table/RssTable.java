@@ -9,6 +9,7 @@ public class RssTable {
 
 	public static final String TABLE_NAME = "fluxRSS";
 	
+	public static final String NAME = "name";
 	public static final String ID = "id";
 	public static final String URL = "url";
 	public static final String CHECKED = "checked";
@@ -16,6 +17,7 @@ public class RssTable {
 	public static final String CREATE_TABLE = 
 		"CREATE TABLE " + TABLE_NAME + " ("
 		+ ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+		+ NAME + "TEXT NOT NULL"
 		+ URL + " TEXT NOT NULL, "
 		+ CHECKED + " TEXT NOT NULL"
 		+");";
@@ -28,6 +30,7 @@ public class RssTable {
 		
 		ContentValues values = new ContentValues();
 		
+		values.put(NAME, elm.getName());
 		values.put(URL, elm.getUrl());
 		values.put(CHECKED, elm.isChecked());
 		
@@ -38,6 +41,7 @@ public class RssTable {
 	public static int update(SQLiteDatabase db, RSS elm) {
 		ContentValues values = new ContentValues();
 		
+		values.put(NAME, elm.getName());
 		values.put(URL, elm.getUrl());
 		values.put(CHECKED, elm.isChecked());
 		
@@ -56,6 +60,7 @@ public class RssTable {
 		RSS elm = new RSS();
 		
 		elm.setId(c.getLong(c.getColumnIndex(ID)));
+		elm.setName(c.getString(c.getColumnIndex(NAME)));
 		elm.setUrl(c.getString(c.getColumnIndex(URL)));
 		elm.setChecked(c.getString(c.getColumnIndex(CHECKED)));
 				
