@@ -76,7 +76,7 @@ public class HomeActivity extends ListActivity {
 		xmlReader = factory.newSAXParser();
 		ItemHandler handler = new ItemHandler();
 
-		URL source = new URL(RSS.URL_LINE);
+		URL source = new URL(RSS.URL_HOTEL);
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
 		
