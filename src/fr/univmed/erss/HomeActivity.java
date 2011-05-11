@@ -14,5 +14,4 @@ public class HomeActivity extends Activity {
 		Intent intent = new Intent(this, PickActivity.class);
 		startActivity(intent);
 	}
-
 }
