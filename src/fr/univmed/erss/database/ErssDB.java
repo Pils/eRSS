@@ -1,5 +1,6 @@
 package fr.univmed.erss.database;
 
+import fr.univmed.erss.database.table.RssTable;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,8 +15,21 @@ public class ErssDB {
 	private SQLiteDatabase db;
 	private SQLiteDb mdb;
 	
+	public ErssDB( Context context ) {
+		mdb = new SQLiteDb(context, DB_NAME, null, DB_VERSION);
+	}
 	
+	public void Open () {
+		db = mdb.getWritableDatabase();
+	}
 	
+	public void Close () {
+		mdb.close();
+	}
+
+	public SQLiteDatabase getDatabase() {
+		return db;
+	}	
 	
 	public class SQLiteDb extends SQLiteOpenHelper {
 		

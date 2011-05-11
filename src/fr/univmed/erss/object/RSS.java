@@ -29,11 +29,9 @@ public class RSS {
 	public void setId (long id) {
 		this.id = id;
 	}
-	
 	public long getId () {
 		return id;
 	}
-	
 	public String getUrl() {
 		return url;
 	}
@@ -45,6 +43,14 @@ public class RSS {
 	}
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+	public void setChecked(String checked) {
+		if(checked == "true")
+		{
+			this.checked = true;
+		}
+		else
+			this.checked = false;
 	}
 	
 }
