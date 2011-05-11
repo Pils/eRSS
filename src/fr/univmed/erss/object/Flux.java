@@ -1,6 +1,6 @@
 package fr.univmed.erss.object;
 
-public class RSS {
+public class Flux {
 	
 	public long id;
 	public String name;
@@ -13,13 +13,13 @@ public class RSS {
 	//					Constructeurs					   //
 	//-----------------------------------------------------//
 	
-	public RSS(String url, boolean checked) {
+	public Flux(String url, boolean checked) {
 		super();
 		this.url = url;
 		this.checked = checked;
 	}
 	
-	public RSS() {
+	public Flux() {
 	
 	}
 

@@ -1,6 +1,6 @@
 package fr.univmed.erss.database;
 
-import fr.univmed.erss.database.table.RssTable;
+import fr.univmed.erss.database.table.FluxTable;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -42,7 +42,7 @@ public class ErssDB {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(RssTable.CREATE_TABLE);
+			db.execSQL(FluxTable.CREATE_TABLE);
 			
 		}
 
@@ -52,7 +52,7 @@ public class ErssDB {
 	                + newVersion + ", which will destroy all old data");
 			
 	        // Delete and recreate .
-	        db.execSQL("DROP TABLE IF EXISTS "+ RssTable.TABLE_NAME);
+	        db.execSQL("DROP TABLE IF EXISTS "+ FluxTable.TABLE_NAME);
 	        onCreate(db);
 			
 		}

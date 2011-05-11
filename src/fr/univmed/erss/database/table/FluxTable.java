@@ -1,11 +1,11 @@
 package fr.univmed.erss.database.table;
 
-import fr.univmed.erss.object.RSS;
+import fr.univmed.erss.object.Flux;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class RssTable {
+public class FluxTable {
 
 	public static final String TABLE_NAME = "fluxRSS";
 	
@@ -22,11 +22,11 @@ public class RssTable {
 		+ CHECKED + " TEXT NOT NULL"
 		+");";
 	
-	public RssTable () {
+	public FluxTable () {
 		
 	}
 	
-	public static long insert ( SQLiteDatabase db, RSS elm ) {
+	public static long insert ( SQLiteDatabase db, Flux elm ) {
 		
 		ContentValues values = new ContentValues();
 		
@@ -38,7 +38,7 @@ public class RssTable {
 	}
 	
 	// update
-	public static int update(SQLiteDatabase db, RSS elm) {
+	public static int update(SQLiteDatabase db, Flux elm) {
 		ContentValues values = new ContentValues();
 		
 		values.put(NAME, elm.getName());
@@ -55,9 +55,9 @@ public class RssTable {
 	}
 	
 	// Convert from cursor 
-	public static RSS fromCursor ( Cursor c ) {
+	public static Flux fromCursor ( Cursor c ) {
 		
-		RSS elm = new RSS();
+		Flux elm = new Flux();
 		
 		elm.setId(c.getLong(c.getColumnIndex(ID)));
 		elm.setName(c.getString(c.getColumnIndex(NAME)));

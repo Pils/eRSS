@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<liste_flux>
+	
+	<flux>
+		<name>Flux Hotel</name>
+		<url>http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml</url>
+	</flux>
+
+	<flux>
+		<name>Flux Evenements</name>
+		<url>http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml</url>
+	</flux>
+
+</liste_flux>

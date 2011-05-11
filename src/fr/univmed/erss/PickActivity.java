@@ -79,7 +79,7 @@ public class PickActivity extends ListActivity {
 		xmlReader = factory.newSAXParser();
 		ItemHandler handler = new ItemHandler();
 
-		URL source = new URL(RSS.URL_AGENDA);
+		URL source = new URL(Flux.URL_AGENDA);
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
 
