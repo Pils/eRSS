@@ -43,13 +43,16 @@ public class FluxHandler extends DefaultHandler{
 			fluxs = new LinkedList<Flux>();
 			collect = true;
 		} else if (localName.equals("flux") && collect) {
+			Log.i(LOG_TAG,"New FLUX");
 			flux = new Flux();
 		} else if (flux != null && collect) {
 			buffer = new StringBuffer();
 		} else if(flux==null && localName.equals("name")) {
 			name = new StringBuffer().toString();
+			Log.i(LOG_TAG, name);
 		} else if(flux==null && localName.equals("url")) {
 			url = new StringBuffer().toString();
+			Log.i(LOG_TAG, url);
 		} 
 	}
 	
@@ -71,6 +74,7 @@ public class FluxHandler extends DefaultHandler{
 			return;
 
 		if (localName.equals("flux")) {
+			Log.i(LOG_TAG, flux.getName()+"-"+ flux.getUrl());
 			flux.setChecked(true);
 			fluxs.add(flux);
 			flux = null;

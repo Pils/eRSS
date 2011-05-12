@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class FluxActivity extends ListActivity{
 
-	private final String TAG = "PickActivity";
+	private final String TAG = "FluxActivity";
 
 	private List<Flux> fluxs = new LinkedList<Flux>();
 	
