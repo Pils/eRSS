@@ -10,7 +10,7 @@ import android.util.Log;
 public class ErssDB {
 
 	private static final int DB_VERSION = 1;
-	private static final String DB_NAME = "atmopaca.db";
+	private static final String DB_NAME = "erss.db";
 	
 	private SQLiteDatabase db;
 	private SQLiteDb mdb;

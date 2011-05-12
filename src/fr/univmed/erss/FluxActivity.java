@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import fr.univmed.erss.database.ErssDB;
+import fr.univmed.erss.database.table.FluxTable;
 import fr.univmed.erss.object.Flux;
 import fr.univmed.erss.parser.flux.FluxHandler;
 
@@ -35,7 +38,9 @@ public class FluxActivity extends ListActivity{
 	private List<Flux> fluxs = new LinkedList<Flux>();
 	private FluxAdapter fAdapter;
 	
-		
+	private ErssDB erssDB;
+	private SQLiteDatabase db;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,7 +59,7 @@ public class FluxActivity extends ListActivity{
 		
 	}
 	
-	private void updateFluxs () throws ParserConfigurationException,
+	private void updateFluxsFromWeb () throws ParserConfigurationException,
 	SAXException, IOException {
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -67,6 +72,21 @@ public class FluxActivity extends ListActivity{
 		xmlReader.parse(inputSourceUrl, handler);
 
 		fluxs = handler.getFluxs();
+		
+		erssDB = new ErssDB(this);
+		Log.i(LOG_TAG, "new ErssDB(this);");
+		this.erssDB.Open();
+		Log.i(LOG_TAG, "this.erssDB.Open();");
+		db = erssDB.getDatabase();
+		Log.i(LOG_TAG, "erssDB.getDatabase();");
+		
+		//db.execSQL("DELETE FROM "+ FluxTable.TABLE_NAME+";");
+		Log.i(LOG_TAG, "db.execSQL(DELETE);");
+		
+		for(Flux flux : fluxs)
+			FluxTable.insert(db, flux);
+		
+		this.erssDB.Close();
 	}
 	
 	/**
@@ -86,7 +106,7 @@ public class FluxActivity extends ListActivity{
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				updateFluxs();
+				updateFluxsFromWeb();
 			} catch (IOException e) {
 				e.printStackTrace();
 				return false;

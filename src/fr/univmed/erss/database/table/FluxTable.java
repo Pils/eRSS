@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class FluxTable {
 
-	public static final String TABLE_NAME = "fluxRSS";
+	public static final String TABLE_NAME = "sourceflux";
 	
 	public static final String NAME = "name";
 	public static final String ID = "id";
@@ -17,7 +17,7 @@ public class FluxTable {
 	public static final String CREATE_TABLE = 
 		"CREATE TABLE " + TABLE_NAME + " ("
 		+ ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-		+ NAME + "TEXT NOT NULL"
+		+ NAME + "TEXT NOT NULL, "
 		+ URL + " TEXT NOT NULL, "
 		+ CHECKED + " TEXT NOT NULL"
 		+");";

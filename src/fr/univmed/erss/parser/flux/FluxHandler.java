@@ -3,6 +3,7 @@ package fr.univmed.erss.parser.flux;
 import java.util.LinkedList;
 import java.util.List;
 
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -27,6 +28,7 @@ public class FluxHandler extends DefaultHandler{
 	private Boolean collect = false;
 	private List<Flux> fluxs = null;
 	
+	
 	public List<Flux> getFluxs() {
 		return fluxs;
 	}
@@ -34,6 +36,7 @@ public class FluxHandler extends DefaultHandler{
 	@Override
 	public void startDocument() throws SAXException {
 		Log.i(LOG_TAG, "Line Handle : Start Document");
+		
 	}
 	
 	@Override
