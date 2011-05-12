@@ -53,11 +53,16 @@ public class Flux {
 	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}
+	public void setChecked(int checked) {
+		if(checked == 1)
+			this.checked = true;
+		else
+			this.checked = false;
+	}
+	
 	public void setChecked(String checked) {
 		if(checked == "true")
-		{
 			this.checked = true;
-		}
 		else
 			this.checked = false;
 	}
