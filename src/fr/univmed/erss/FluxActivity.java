@@ -12,35 +12,46 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import fr.univmed.erss.parser.flux.FluxHandler;
-import fr.univmed.erss.object.Flux;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+import fr.univmed.erss.object.Flux;
+import fr.univmed.erss.parser.flux.FluxHandler;
 
 
 public class FluxActivity extends ListActivity{
 
-	private final String TAG = "FluxActivity";
+	private final String LOG_TAG = "FluxActivity";
 
 	private List<Flux> fluxs = new LinkedList<Flux>();
+	private FluxAdapter fAdapter;
 	
-	//private static final String[] fluxs_name = new String[] { "Flux 1", "Flux 2" }; 
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		Log.i(TAG, "onCreate()");
 
+		super.onCreate(savedInstanceState);
+		Log.i(LOG_TAG, "onCreate()");
+
+		fAdapter = new FluxAdapter();
+		setListAdapter(fAdapter);
 		
+		final ListView listView = getListView();
+
+        listView.setItemsCanFocus(false);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                
 		new ThreadParse().execute();
 		
-		for(int i=0; i< fluxs.size() ; i++)
-			Log.i(TAG, fluxs.get(i).getName());
 	}
 	
 	private void updateFluxs () throws ParserConfigurationException,
@@ -55,7 +66,7 @@ public class FluxActivity extends ListActivity{
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
 
-		fluxs = handler.getFluxs();	
+		fluxs = handler.getFluxs();
 	}
 	
 	/**
@@ -92,8 +103,11 @@ public class FluxActivity extends ListActivity{
 		@Override
 		protected void onPostExecute(Boolean result) {
 			pDialog.cancel();
+			
 			if (result) {
-			//	mAdapter.notifyDataSetChanged();
+				for(int i=0; i<fluxs.size(); i++)
+		        	FluxActivity.this.getListView().setItemChecked(i, true);
+				fAdapter.notifyDataSetChanged();
 				Toast.makeText(FluxActivity.this, "List Updated",
 						Toast.LENGTH_SHORT).show();
 				} else {
@@ -103,14 +117,13 @@ public class FluxActivity extends ListActivity{
 		}
 	}
 	
-/*	
-	private class MyListAdapter extends BaseAdapter {
+	private class FluxAdapter extends BaseAdapter {
 
 		public int getCount() {
 			return fluxs.size();
 		}
 
-		public Object getItem(int position) {
+		public Flux getItem(int position) {
 			return fluxs.get(position);
 		}
 
@@ -119,9 +132,16 @@ public class FluxActivity extends ListActivity{
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			return null;
+			TextView tv;
+			if (convertView == null) {
+				tv = (TextView) LayoutInflater.from(FluxActivity.this).inflate(
+						android.R.layout.simple_list_item_multiple_choice, parent, false);
+			} else {
+				tv = (TextView) convertView;
+			}
+			tv.setText(getItem(position).getName());
+			return tv;
 		}
 		
-	}*/
+	}
 }
