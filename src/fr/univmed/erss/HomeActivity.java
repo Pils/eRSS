@@ -10,8 +10,7 @@ public class HomeActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		       
-		Intent intent = new Intent(this, FluxActivity.class);
+		Intent intent = new Intent(this, PickActivity.class);
 		startActivity(intent);
 	}
-
 }
