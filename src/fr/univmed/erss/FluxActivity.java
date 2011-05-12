@@ -14,15 +14,18 @@ import org.xml.sax.SAXException;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,7 +40,7 @@ public class FluxActivity extends ListActivity {
 
 	private final String LOG_TAG = "FluxActivity";
 
-	private List<Flux> fluxs = new LinkedList<Flux>();
+	private List<Flux> fluxs = new LinkedList<Flux>();;
 	private FluxAdapter fAdapter;
 	
 	private ErssDB erssDB;
@@ -77,6 +80,8 @@ public class FluxActivity extends ListActivity {
 		xmlReader.parse(inputSourceUrl, handler);
 
 		liste_fluxs = handler.getFluxs();
+		
+		fluxs.clear();
 		
 		this.erssDB.Open();
 		Log.i(LOG_TAG, "this.erssDB.Open();");
@@ -126,6 +131,28 @@ public class FluxActivity extends ListActivity {
 				, Toast.LENGTH_SHORT).show();
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.fluxactivity, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.actualise:
+			new ThreadParse().execute();
+			return true;
+		case R.id.evenementliste:
+			Intent intent = new Intent(this, PickActivity.class);
+			startActivity(intent);
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+	}
 	/**
 	 * Asynctask to avoid hanging activity .
 	 */
