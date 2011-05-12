@@ -62,7 +62,7 @@ public class FluxTable {
 		elm.setId(c.getLong(c.getColumnIndex(ID)));
 		elm.setName(c.getString(c.getColumnIndex(NAME)));
 		elm.setUrl(c.getString(c.getColumnIndex(URL)));
-		elm.setChecked(c.getString(c.getColumnIndex(CHECKED)));
+		elm.setChecked(c.getInt(c.getColumnIndex(CHECKED)));
 				
 		return elm;
 	}

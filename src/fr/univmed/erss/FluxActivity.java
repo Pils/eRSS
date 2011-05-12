@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +33,7 @@ import fr.univmed.erss.object.Flux;
 import fr.univmed.erss.parser.flux.FluxHandler;
 
 
-public class FluxActivity extends ListActivity{
+public class FluxActivity extends ListActivity {
 
 	private final String LOG_TAG = "FluxActivity";
 
@@ -51,16 +53,19 @@ public class FluxActivity extends ListActivity{
 		setListAdapter(fAdapter);
 		
 		final ListView listView = getListView();
-
         listView.setItemsCanFocus(false);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                
+        
+        erssDB = new ErssDB(this);
 		new ThreadParse().execute();
 		
 	}
 	
+	
 	private void updateFluxsFromWeb () throws ParserConfigurationException,
 	SAXException, IOException {
+		
+		List<Flux> liste_fluxs = new LinkedList<Flux>();
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser xmlReader;
@@ -71,10 +76,8 @@ public class FluxActivity extends ListActivity{
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
 
-		fluxs = handler.getFluxs();
+		liste_fluxs = handler.getFluxs();
 		
-		erssDB = new ErssDB(this);
-		Log.i(LOG_TAG, "new ErssDB(this);");
 		this.erssDB.Open();
 		Log.i(LOG_TAG, "this.erssDB.Open();");
 		db = erssDB.getDatabase();
@@ -84,11 +87,43 @@ public class FluxActivity extends ListActivity{
 		Log.i(LOG_TAG, "db.execSQL(DELETE);");
 		
 		
-		for(Flux flux : fluxs)
+		for(Flux flux : liste_fluxs)
 			FluxTable.insert(db, flux);
 		
-		
+		Cursor cursor = db.query(FluxTable.TABLE_NAME, null, null, null, null, null, null);
+		while(cursor.moveToNext())
+		{
+			fluxs.add(FluxTable.fromCursor(cursor));
+			//Log.i(LOG_TAG, cursor.getColumnName(3)+"->"+cursor.getString(3));
+		}
+		cursor.close();
 		this.erssDB.Close();
+	}
+	
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		
+		if(fluxs.get(position).isChecked() == true)
+		{
+			fluxs.get(position).setChecked(false);
+			erssDB.Open();
+			db = erssDB.getDatabase();
+			FluxTable.update(db, fluxs.get(position));
+			erssDB.Close();
+		}
+		else
+		{
+			fluxs.get(position).setChecked(true);
+			erssDB.Open();
+			db = erssDB.getDatabase();
+			FluxTable.update(db, fluxs.get(position));
+			erssDB.Close();
+		}
+		Toast.makeText(this, "position=" + position + " id=" + id + " val=" + fluxs.get(position).getUrl()
+				, Toast.LENGTH_SHORT).show();
 	}
 	
 	/**
@@ -128,8 +163,11 @@ public class FluxActivity extends ListActivity{
 			
 			if (result) {
 				for(int i=0; i<fluxs.size(); i++)
+				{
 		        	FluxActivity.this.getListView().setItemChecked(i, true);
-				fAdapter.notifyDataSetChanged();
+		        	Log.i(LOG_TAG,"flux checked ?"+ fluxs.get(i).isChecked());
+				}
+		        fAdapter.notifyDataSetChanged();
 				Toast.makeText(FluxActivity.this, "List Updated",
 						Toast.LENGTH_SHORT).show();
 				} else {
@@ -150,7 +188,7 @@ public class FluxActivity extends ListActivity{
 		}
 
 		public long getItemId(int position) {
-			return position+1; // TODO Prendre l'ID à partir de la db
+			return this.getItem(position).getId();
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -166,4 +204,5 @@ public class FluxActivity extends ListActivity{
 		}
 		
 	}
+
 }
