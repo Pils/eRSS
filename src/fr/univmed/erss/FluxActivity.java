@@ -80,11 +80,13 @@ public class FluxActivity extends ListActivity{
 		db = erssDB.getDatabase();
 		Log.i(LOG_TAG, "erssDB.getDatabase();");
 		
-		//db.execSQL("DELETE FROM "+ FluxTable.TABLE_NAME+";");
+		db.execSQL("DELETE FROM "+ FluxTable.TABLE_NAME +";");
 		Log.i(LOG_TAG, "db.execSQL(DELETE);");
+		
 		
 		for(Flux flux : fluxs)
 			FluxTable.insert(db, flux);
+		
 		
 		this.erssDB.Close();
 	}

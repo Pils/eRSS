@@ -43,7 +43,6 @@ public class ErssDB {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(FluxTable.CREATE_TABLE);
-			
 		}
 
 		@Override
