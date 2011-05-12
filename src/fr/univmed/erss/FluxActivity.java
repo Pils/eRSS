@@ -60,6 +60,7 @@ public class FluxActivity extends ListActivity {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         
         erssDB = new ErssDB(this);
+        //TODO if( databaseIsEmpty() )
 		new ThreadParse().execute();
 		
 	}
@@ -108,7 +109,6 @@ public class FluxActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		
 		if(fluxs.get(position).isChecked() == true)
