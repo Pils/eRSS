@@ -60,13 +60,42 @@ public class FluxActivity extends ListActivity {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         
         erssDB = new ErssDB(this);
-        //TODO if( databaseIsEmpty() )
-		new ThreadParse().execute();
+        erssDB.Open();
+		db = erssDB.getDatabase();
+		boolean doRefresh = FluxTable.isEmpty(db);
+        erssDB.Close();
+		if( doRefresh )
+           	new ThreadParse().execute();
+		else
+			updateFluxsFromFluxTable();
+	}
+	
+	private void updateFluxsFromFluxTable () {
+		
+		this.erssDB.Open();
+		db = erssDB.getDatabase();
+		
+		Cursor cursor = db.query(FluxTable.TABLE_NAME, null, null, null, null, null, null);
+		while(cursor.moveToNext())
+		{
+			fluxs.add(FluxTable.fromCursor(cursor));
+			//Log.i(LOG_TAG, cursor.getColumnName(3)+"->"+cursor.getString(3));
+		}
+		cursor.close();
+		this.erssDB.Close();
+		
+		for(int i=0; i<fluxs.size(); i++)
+		{
+			if(fluxs.get(i).isChecked())
+				this.getListView().setItemChecked(i, true);
+			else
+				this.getListView().setItemChecked(i, false);
+        	Log.i(LOG_TAG,"flux checked ?"+ fluxs.get(i).isChecked());
+		}
 		
 	}
 	
-	
-	private void updateFluxsFromWeb () throws ParserConfigurationException,
+	private void updateFluxTableFromWeb () throws ParserConfigurationException,
 	SAXException, IOException {
 		
 		List<Flux> liste_fluxs = new LinkedList<Flux>();
@@ -85,9 +114,7 @@ public class FluxActivity extends ListActivity {
 		fluxs.clear();
 		
 		this.erssDB.Open();
-		Log.i(LOG_TAG, "this.erssDB.Open();");
 		db = erssDB.getDatabase();
-		Log.i(LOG_TAG, "erssDB.getDatabase();");
 		
 		db.execSQL("DELETE FROM "+ FluxTable.TABLE_NAME +";");
 		Log.i(LOG_TAG, "db.execSQL(DELETE);");
@@ -96,13 +123,6 @@ public class FluxActivity extends ListActivity {
 		for(Flux flux : liste_fluxs)
 			FluxTable.insert(db, flux);
 		
-		Cursor cursor = db.query(FluxTable.TABLE_NAME, null, null, null, null, null, null);
-		while(cursor.moveToNext())
-		{
-			fluxs.add(FluxTable.fromCursor(cursor));
-			//Log.i(LOG_TAG, cursor.getColumnName(3)+"->"+cursor.getString(3));
-		}
-		cursor.close();
 		this.erssDB.Close();
 	}
 	
@@ -170,7 +190,7 @@ public class FluxActivity extends ListActivity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				updateFluxsFromWeb();
+				updateFluxTableFromWeb();
 			} catch (IOException e) {
 				e.printStackTrace();
 				return false;
@@ -189,11 +209,7 @@ public class FluxActivity extends ListActivity {
 			pDialog.cancel();
 			
 			if (result) {
-				for(int i=0; i<fluxs.size(); i++)
-				{
-		        	FluxActivity.this.getListView().setItemChecked(i, true);
-		        	Log.i(LOG_TAG,"flux checked ?"+ fluxs.get(i).isChecked());
-				}
+				updateFluxsFromFluxTable();
 		        fAdapter.notifyDataSetChanged();
 				Toast.makeText(FluxActivity.this, "List Updated",
 						Toast.LENGTH_SHORT).show();

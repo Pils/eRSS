@@ -53,7 +53,6 @@ public class ErssDB {
 	        // Delete and recreate .
 	        db.execSQL("DROP TABLE IF EXISTS "+ FluxTable.TABLE_NAME);
 	        onCreate(db);
-			
 		}
 
 	}

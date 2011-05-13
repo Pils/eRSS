@@ -4,6 +4,7 @@ import fr.univmed.erss.object.Flux;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class FluxTable {
 
@@ -52,6 +53,19 @@ public class FluxTable {
 	public static int delete(SQLiteDatabase db, long id) {
 
 		return db.delete(TABLE_NAME, ID+"="+id, null);
+	}
+	
+	public static boolean isEmpty (SQLiteDatabase db)
+	{
+		int i=0;
+		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+		while(cursor.moveToNext())
+			i++;
+		Log.i("Fluxtable", "i : "+i);
+		if(i > 0)
+			return false;
+		else
+			return true;
 	}
 	
 	// Convert from cursor 
