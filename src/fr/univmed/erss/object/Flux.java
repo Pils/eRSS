@@ -1,16 +1,22 @@
 package fr.univmed.erss.object;
 
+/**
+ * Classe qui defini les elements Flux
+ * Ces elements sont les adresse sources des flux rss a recuperer
+ * L'element comprends le nom de la source, l'url, ainsi que l'id dans la bdd, et si il est selectionné comme à suivre au non.
+ * @author pilou
+ *
+ */
 public class Flux {
-	
+	//TODO les liens doivent disparaitre
 	public final static String URL_HOTEL = "http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml";
 	public final static String URL_AGENDA = "http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml";
 	
 	public long id;
 	public String name;
 	public String url;
-//= "http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml";
-//= "http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml";
-	public boolean checked;
+
+	public boolean checked;//True si le flux est à suivre, False sinon
 	
 	//-----------------------------------------------------//
 	//					Constructeurs					   //

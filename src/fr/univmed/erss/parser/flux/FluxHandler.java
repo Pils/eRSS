@@ -12,7 +12,11 @@ import android.util.Log;
 
 import fr.univmed.erss.object.Flux;
 
-
+/**
+ * Parser permettant d'effectuer la recuperation de la liste des adresse source pour les flux
+ * @author pilou
+ *
+ */
 public class FluxHandler extends DefaultHandler{
 
 	private static final String LOG_TAG = "FluxHandler";
