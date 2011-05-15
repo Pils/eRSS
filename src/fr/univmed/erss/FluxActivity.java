@@ -59,6 +59,8 @@ public class FluxActivity extends ListActivity {
         listView.setItemsCanFocus(false);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         
+        setTitle(R.string.flux_activity_title);
+        
         erssDB = new ErssDB(this);
         erssDB.Open();
 		db = erssDB.getDatabase();
@@ -147,8 +149,6 @@ public class FluxActivity extends ListActivity {
 			FluxTable.update(db, fluxs.get(position));
 			erssDB.Close();
 		}
-		Toast.makeText(this, "position=" + position + " id=" + id + " val=" + fluxs.get(position).getUrl()
-				, Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override
@@ -173,6 +173,8 @@ public class FluxActivity extends ListActivity {
 
 		}
 	}
+
+
 	/**
 	 * Asynctask to avoid hanging activity .
 	 */
@@ -182,8 +184,8 @@ public class FluxActivity extends ListActivity {
 		@Override
 		protected void onPreExecute() {
 			pDialog = new ProgressDialog(FluxActivity.this);
-			pDialog.setTitle("Sync");
-			pDialog.setMessage("Syncing with remote location .");
+			pDialog.setTitle(R.string.sync_title);
+			pDialog.setMessage(getString(R.string.sync_message));
 			pDialog.show();
 		}
 
@@ -211,10 +213,10 @@ public class FluxActivity extends ListActivity {
 			if (result) {
 				updateFluxsFromFluxTable();
 		        fAdapter.notifyDataSetChanged();
-				Toast.makeText(FluxActivity.this, "List Updated",
+				Toast.makeText(FluxActivity.this, R.string.update_success,
 						Toast.LENGTH_SHORT).show();
 				} else {
-				Toast.makeText(FluxActivity.this, "Update Fail",
+				Toast.makeText(FluxActivity.this, R.string.update_fail,
 						Toast.LENGTH_SHORT).show();
 			}
 		}

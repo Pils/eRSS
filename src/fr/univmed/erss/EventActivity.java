@@ -42,7 +42,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 public class EventActivity extends android.app.ListActivity implements
 		OnItemLongClickListener {
-	// TAG for log information provided by this class .
+	// TAG for log resIdinformation provided by this class .
 	private final String TAG = "PickActivity";
 
 	static final int DISPLAY_INFO = 0;
@@ -90,9 +90,9 @@ public class EventActivity extends android.app.ListActivity implements
 		AlertDialog dialog = null;
 		switch (id) {
 		case DISPLAY_INFO:
-			final CharSequence[] items = { "Display info" };
+			final CharSequence[] items = { getString(R.string.display_item_1) };
 			dialog = new AlertDialog.Builder(EventActivity.this)
-					.setTitle("Action")
+					.setTitle(R.string.action)
 					.setItems(items, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
 							Toast.makeText(getApplicationContext(),
@@ -103,11 +103,11 @@ public class EventActivity extends android.app.ListActivity implements
 
 			break;
 		case FILTRE:
-			final CharSequence[] listItems = { "Red", "Green", "Blue" };
+			final CharSequence[] listItems = { getString(R.string.filtre_item_1), getString(R.string.filtre_item_2), getString(R.string.filtre_item_3) };
 			final boolean[] checkedItem = { true, true, true };
 
 			dialog = new AlertDialog.Builder(EventActivity.this)
-					.setTitle("Pick a color")
+					.setTitle(R.string.filtre_dialog_title)
 					.setMultiChoiceItems(listItems, checkedItem,
 							new DialogInterface.OnMultiChoiceClickListener() {
 								public void onClick(DialogInterface arg0,
@@ -137,7 +137,7 @@ public class EventActivity extends android.app.ListActivity implements
 		switch (item.getItemId()) {
 		case R.id.filtre:
 			Log.i(TAG, "onOptionsItemSelected : FILTRE");
-			showDialog(FILTRE); //Attention il n'affiche pas le dialog. C'est dans onCreateDialog qu'il est affiché!! A changer!
+			showDialog(FILTRE); //Attention il n'affiche pas le dialog. C'est dans onCreateDialog qu'il est affichï¿½!! A changer!
 			break;
 		case R.id.quitter:
 			System.exit(0);
@@ -173,8 +173,8 @@ public class EventActivity extends android.app.ListActivity implements
 		@Override
 		protected void onPreExecute() {
 			pDialog = new ProgressDialog(EventActivity.this);
-			pDialog.setTitle("Sync");
-			pDialog.setMessage("Syncing with remote location .");
+			pDialog.setTitle(R.string.sync_title);
+			pDialog.setMessage(getString(R.string.sync_message));
 			pDialog.show();
 		}
 
@@ -200,97 +200,97 @@ public class EventActivity extends android.app.ListActivity implements
 			String car = null;
 
 			car = new String("A");
-			result.add(car); /* '\u00C0' À alt-0192 */
-			result.add(car); /* '\u00C1' Á alt-0193 */
-			result.add(car); /* '\u00C2' Â alt-0194 */
-			result.add(car); /* '\u00C3' Ã alt-0195 */
-			result.add(car); /* '\u00C4' Ä alt-0196 */
-			result.add(car); /* '\u00C5' Å alt-0197 */
+			result.add(car); /* '\u00C0' ï¿½ alt-0192 */
+			result.add(car); /* '\u00C1' ï¿½ alt-0193 */
+			result.add(car); /* '\u00C2' ï¿½ alt-0194 */
+			result.add(car); /* '\u00C3' ï¿½ alt-0195 */
+			result.add(car); /* '\u00C4' ï¿½ alt-0196 */
+			result.add(car); /* '\u00C5' ï¿½ alt-0197 */
 			car = new String("AE");
-			result.add(car); /* '\u00C6' Æ alt-0198 */
+			result.add(car); /* '\u00C6' ï¿½ alt-0198 */
 			car = new String("C");
-			result.add(car); /* '\u00C7' Ç alt-0199 */
+			result.add(car); /* '\u00C7' ï¿½ alt-0199 */
 			car = new String("E");
-			result.add(car); /* '\u00C8' È alt-0200 */
-			result.add(car); /* '\u00C9' É alt-0201 */
-			result.add(car); /* '\u00CA' Ê alt-0202 */
-			result.add(car); /* '\u00CB' Ë alt-0203 */
+			result.add(car); /* '\u00C8' ï¿½ alt-0200 */
+			result.add(car); /* '\u00C9' ï¿½ alt-0201 */
+			result.add(car); /* '\u00CA' ï¿½ alt-0202 */
+			result.add(car); /* '\u00CB' ï¿½ alt-0203 */
 			car = new String("I");
-			result.add(car); /* '\u00CC' Ì alt-0204 */
-			result.add(car); /* '\u00CD' Í alt-0205 */
-			result.add(car); /* '\u00CE' Î alt-0206 */
-			result.add(car); /* '\u00CF' Ï alt-0207 */
+			result.add(car); /* '\u00CC' ï¿½ alt-0204 */
+			result.add(car); /* '\u00CD' ï¿½ alt-0205 */
+			result.add(car); /* '\u00CE' ï¿½ alt-0206 */
+			result.add(car); /* '\u00CF' ï¿½ alt-0207 */
 			car = new String("D");
-			result.add(car); /* '\u00D0' Ð alt-0208 */
+			result.add(car); /* '\u00D0' ï¿½ alt-0208 */
 			car = new String("N");
-			result.add(car); /* '\u00D1' Ñ alt-0209 */
+			result.add(car); /* '\u00D1' ï¿½ alt-0209 */
 			car = new String("O");
-			result.add(car); /* '\u00D2' Ò alt-0210 */
-			result.add(car); /* '\u00D3' Ó alt-0211 */
-			result.add(car); /* '\u00D4' Ô alt-0212 */
-			result.add(car); /* '\u00D5' Õ alt-0213 */
-			result.add(car); /* '\u00D6' Ö alt-0214 */
+			result.add(car); /* '\u00D2' ï¿½ alt-0210 */
+			result.add(car); /* '\u00D3' ï¿½ alt-0211 */
+			result.add(car); /* '\u00D4' ï¿½ alt-0212 */
+			result.add(car); /* '\u00D5' ï¿½ alt-0213 */
+			result.add(car); /* '\u00D6' ï¿½ alt-0214 */
 			car = new String("*");
-			result.add(car); /* '\u00D7' × alt-0215 */
+			result.add(car); /* '\u00D7' ï¿½ alt-0215 */
 			car = new String("0");
-			result.add(car); /* '\u00D8' Ø alt-0216 */
+			result.add(car); /* '\u00D8' ï¿½ alt-0216 */
 			car = new String("U");
-			result.add(car); /* '\u00D9' Ù alt-0217 */
-			result.add(car); /* '\u00DA' Ú alt-0218 */
-			result.add(car); /* '\u00DB' Û alt-0219 */
-			result.add(car); /* '\u00DC' Ü alt-0220 */
+			result.add(car); /* '\u00D9' ï¿½ alt-0217 */
+			result.add(car); /* '\u00DA' ï¿½ alt-0218 */
+			result.add(car); /* '\u00DB' ï¿½ alt-0219 */
+			result.add(car); /* '\u00DC' ï¿½ alt-0220 */
 			car = new String("Y");
-			result.add(car); /* '\u00DD' Ý alt-0221 */
-			car = new String("Þ");
-			result.add(car); /* '\u00DE' Þ alt-0222 */
+			result.add(car); /* '\u00DD' ï¿½ alt-0221 */
+			car = new String("ï¿½");
+			result.add(car); /* '\u00DE' ï¿½ alt-0222 */
 			car = new String("B");
-			result.add(car); /* '\u00DF' ß alt-0223 */
+			result.add(car); /* '\u00DF' ï¿½ alt-0223 */
 			car = new String("a");
-			result.add(car); /* '\u00E0' à alt-0224 */
-			result.add(car); /* '\u00E1' á alt-0225 */
-			result.add(car); /* '\u00E2' â alt-0226 */
-			result.add(car); /* '\u00E3' ã alt-0227 */
-			result.add(car); /* '\u00E4' ä alt-0228 */
-			result.add(car); /* '\u00E5' å alt-0229 */
+			result.add(car); /* '\u00E0' ï¿½ alt-0224 */
+			result.add(car); /* '\u00E1' ï¿½ alt-0225 */
+			result.add(car); /* '\u00E2' ï¿½ alt-0226 */
+			result.add(car); /* '\u00E3' ï¿½ alt-0227 */
+			result.add(car); /* '\u00E4' ï¿½ alt-0228 */
+			result.add(car); /* '\u00E5' ï¿½ alt-0229 */
 			car = new String("ae");
-			result.add(car); /* '\u00E6' æ alt-0230 */
+			result.add(car); /* '\u00E6' ï¿½ alt-0230 */
 			car = new String("c");
-			result.add(car); /* '\u00E7' ç alt-0231 */
+			result.add(car); /* '\u00E7' ï¿½ alt-0231 */
 			car = new String("e");
-			result.add(car); /* '\u00E8' è alt-0232 */
-			result.add(car); /* '\u00E9' é alt-0233 */
-			result.add(car); /* '\u00EA' ê alt-0234 */
-			result.add(car); /* '\u00EB' ë alt-0235 */
+			result.add(car); /* '\u00E8' ï¿½ alt-0232 */
+			result.add(car); /* '\u00E9' ï¿½ alt-0233 */
+			result.add(car); /* '\u00EA' ï¿½ alt-0234 */
+			result.add(car); /* '\u00EB' ï¿½ alt-0235 */
 			car = new String("i");
-			result.add(car); /* '\u00EC' ì alt-0236 */
-			result.add(car); /* '\u00ED' í alt-0237 */
-			result.add(car); /* '\u00EE' î alt-0238 */
-			result.add(car); /* '\u00EF' ï alt-0239 */
+			result.add(car); /* '\u00EC' ï¿½ alt-0236 */
+			result.add(car); /* '\u00ED' ï¿½ alt-0237 */
+			result.add(car); /* '\u00EE' ï¿½ alt-0238 */
+			result.add(car); /* '\u00EF' ï¿½ alt-0239 */
 			car = new String("d");
-			result.add(car); /* '\u00F0' ð alt-0240 */
+			result.add(car); /* '\u00F0' ï¿½ alt-0240 */
 			car = new String("n");
-			result.add(car); /* '\u00F1' ñ alt-0241 */
+			result.add(car); /* '\u00F1' ï¿½ alt-0241 */
 			car = new String("o");
-			result.add(car); /* '\u00F2' ò alt-0242 */
-			result.add(car); /* '\u00F3' ó alt-0243 */
-			result.add(car); /* '\u00F4' ô alt-0244 */
-			result.add(car); /* '\u00F5' õ alt-0245 */
-			result.add(car); /* '\u00F6' ö alt-0246 */
+			result.add(car); /* '\u00F2' ï¿½ alt-0242 */
+			result.add(car); /* '\u00F3' ï¿½ alt-0243 */
+			result.add(car); /* '\u00F4' ï¿½ alt-0244 */
+			result.add(car); /* '\u00F5' ï¿½ alt-0245 */
+			result.add(car); /* '\u00F6' ï¿½ alt-0246 */
 			car = new String("/");
-			result.add(car); /* '\u00F7' ÷ alt-0247 */
+			result.add(car); /* '\u00F7' ï¿½ alt-0247 */
 			car = new String("0");
-			result.add(car); /* '\u00F8' ø alt-0248 */
+			result.add(car); /* '\u00F8' ï¿½ alt-0248 */
 			car = new String("u");
-			result.add(car); /* '\u00F9' ù alt-0249 */
-			result.add(car); /* '\u00FA' ú alt-0250 */
-			result.add(car); /* '\u00FB' û alt-0251 */
-			result.add(car); /* '\u00FC' ü alt-0252 */
+			result.add(car); /* '\u00F9' ï¿½ alt-0249 */
+			result.add(car); /* '\u00FA' ï¿½ alt-0250 */
+			result.add(car); /* '\u00FB' ï¿½ alt-0251 */
+			result.add(car); /* '\u00FC' ï¿½ alt-0252 */
 			car = new String("y");
-			result.add(car); /* '\u00FD' ý alt-0253 */
-			car = new String("þ");
-			result.add(car); /* '\u00FE' þ alt-0254 */
+			result.add(car); /* '\u00FD' ï¿½ alt-0253 */
+			car = new String("ï¿½");
+			result.add(car); /* '\u00FE' ï¿½ alt-0254 */
 			car = new String("y");
-			result.add(car); /* '\u00FF' ÿ alt-0255 */
+			result.add(car); /* '\u00FF' ï¿½ alt-0255 */
 			result.add(car); /* '\u00FF' alt-0255 */
 
 			return result;
@@ -317,7 +317,7 @@ public class EventActivity extends android.app.ListActivity implements
 			pDialog.cancel();
 			if (result) {
 				mAdapter.notifyDataSetChanged();
-				Toast.makeText(EventActivity.this, "List Updated",
+				Toast.makeText(EventActivity.this, R.string.update_success,
 						Toast.LENGTH_SHORT).show();
 
 				// add the default icon
@@ -348,7 +348,7 @@ public class EventActivity extends android.app.ListActivity implements
 					}
 				}
 			} else {
-				Toast.makeText(EventActivity.this, "Update Fail",
+				Toast.makeText(EventActivity.this, R.string.update_fail,
 						Toast.LENGTH_SHORT).show();
 			}
 		}

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, HomeActivity!</string>
-    <string name="app_name"></string>
+    <string name="hello">Bienvenue dans l\'application eRSS</string>
+    <string name="app_name">1-eRSS</string>
+    
+    <!-- Dialogue au niveau des synchronisation -->
+    <string name="sync_title">Synchronisation</string>
+   	<string name="sync_message">Synchronisation avec l\'hote distant en cours</string>
+   	<string name="update_success">Mise à jour effectué</string>
+   	<string name="update_fail">Echec de la mise à jour</string>
+   	
+   	<!-- Dialogue sur l'ecran FluxActivity -->
+   	<string name="flux_activity_title">Choix des flux à suivre</string>
+   	<string name="actualise">Actualiser</string>
+   	<string name="evenementListe">Evenements</string>
+   	
+   	<!-- Dialogue sur l'ecran EventActivity -->
+   	<string name="filtre">Filtres</string>
+   	<string name="quitter">Quitter</string>
+   	<string name="action">Action</string>
+   	<string name="display_item_1">Display Info</string>
+   	<string name="filtre_item_1">Red</string>
+   	<string name="filtre_item_2">Green</string>
+   	<string name="filtre_item_3">Blue</string>
+   	<string name="filtre_dialog_title">Pick a color</string>
+   	
 </resources>
