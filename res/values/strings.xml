@@ -15,13 +15,9 @@
    	<string name="evenementListe">Evenements</string>
    	
    	<!-- Dialogue sur l'ecran EventActivity -->
-   	<string name="filtre">Filtres</string>
-   	<string name="quitter">Quitter</string>
+   	<string name="filtre">Filtrer</string>
+   	<string name="flux">Flux</string>
    	<string name="action">Action</string>
-   	<string name="display_item_1">Display Info</string>
-   	<string name="filtre_item_1">Red</string>
-   	<string name="filtre_item_2">Green</string>
-   	<string name="filtre_item_3">Blue</string>
-   	<string name="filtre_dialog_title">Pick a color</string>
-   	
+   	<string name="display_title">Affiche les informations</string>
+   	<string name="filtre_dialog_title">Par catégorie</string>
 </resources>

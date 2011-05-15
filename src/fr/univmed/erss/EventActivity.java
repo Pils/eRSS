@@ -2,6 +2,7 @@ package fr.univmed.erss;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -85,12 +87,46 @@ public class EventActivity extends android.app.ListActivity implements
 		return true;
 	}
 
+	private CharSequence[] getSequenceCategorie(ArrayList<String> listCategorie){
+		CharSequence[] sequenceCategorie = new CharSequence[listCategorie.size()];
+		for(int i=0; i<listCategorie.size(); i++){
+			sequenceCategorie[i] = listCategorie.get(i);
+		}
+		return sequenceCategorie;
+	}
+	
+	private boolean containsCategory(ArrayList<String> listCategorie, String categorie){
+		for(int i=0; i<listCategorie.size(); i++){
+			if(listCategorie.get(i).equals(categorie))
+				return true;
+		}
+		return false;
+	}
+	
+	private CharSequence[] getListCategorie() {
+		ArrayList<String> listCategorie = new ArrayList<String>();
+		for(int i=0; i<items.size(); i++){
+			String categorie = items.get(i).getCategory();
+			if(!containsCategory(listCategorie,categorie))
+				listCategorie.add(categorie);
+		}
+		return getSequenceCategorie(listCategorie);
+	}
+	
+	private boolean[] getListCheckedItem() {
+		boolean[] listCheckedItem = new boolean[items.size()];
+		for(int i=0; i<items.size(); i++){
+			listCheckedItem[i] = true;
+		}
+		return listCheckedItem;
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		AlertDialog dialog = null;
 		switch (id) {
 		case DISPLAY_INFO:
-			final CharSequence[] items = { getString(R.string.display_item_1) };
+			final CharSequence[] items = { getString(R.string.display_title) };
 			dialog = new AlertDialog.Builder(EventActivity.this)
 					.setTitle(R.string.action)
 					.setItems(items, new DialogInterface.OnClickListener() {
@@ -100,11 +136,10 @@ public class EventActivity extends android.app.ListActivity implements
 									.show();
 						}
 					}).create();
-
 			break;
 		case FILTRE:
-			final CharSequence[] listItems = { getString(R.string.filtre_item_1), getString(R.string.filtre_item_2), getString(R.string.filtre_item_3) };
-			final boolean[] checkedItem = { true, true, true };
+			final CharSequence[] listItems = getListCategorie();
+			final boolean[] checkedItem = getListCheckedItem();
 
 			dialog = new AlertDialog.Builder(EventActivity.this)
 					.setTitle(R.string.filtre_dialog_title)
@@ -118,7 +153,7 @@ public class EventActivity extends android.app.ListActivity implements
 												Toast.LENGTH_SHORT).show();
 								}
 							}).create();
-			dialog.show();
+			break;
 		default:
 			dialog = null;
 		}
@@ -136,11 +171,14 @@ public class EventActivity extends android.app.ListActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.filtre:
-			Log.i(TAG, "onOptionsItemSelected : FILTRE");
-			showDialog(FILTRE); //Attention il n'affiche pas le dialog. C'est dans onCreateDialog qu'il est affich�!! A changer!
+			showDialog(FILTRE);
 			break;
-		case R.id.quitter:
-			System.exit(0);
+		case R.id.actualise:
+			new ThreadParse().execute();
+			return true;
+		case R.id.flux:
+			Intent intent = new Intent(this, FluxActivity.class);
+			startActivity(intent);
 			break;
 		default:
 			break;

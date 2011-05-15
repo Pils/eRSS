@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/actualise"
+        android:title="@string/actualise"
+        android:icon="@drawable/icon" />
+        
     <item android:id="@+id/filtre"
     	android:title="@string/filtre"
 		android:icon="@drawable/icon" />
-	
-	<item android:id="@+id/quitter"
-		android:title="@string/quitter"
+		
+	<item android:id="@+id/flux"
+		android:title="@string/flux"
 		android:icon="@drawable/icon" />
 </menu>
