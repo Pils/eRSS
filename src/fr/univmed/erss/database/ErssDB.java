@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
+/**
+ * Classe qui gere la base de donnee generale de l'application eRSS
+ * @author pilou
+ *
+ */
 public class ErssDB {
 
 	private static final int DB_VERSION = 1;
