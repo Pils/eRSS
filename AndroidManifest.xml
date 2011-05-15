@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
 
-		<activity android:name="PickActivity"/>
+		<activity android:name="EventActivity"/>
 		<activity android:name="FluxActivity"/>
     </application>
 </manifest>

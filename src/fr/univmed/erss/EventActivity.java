@@ -15,10 +15,12 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import fr.univmed.erss.object.Flux;
-import fr.univmed.erss.parser.Item;
+import fr.univmed.erss.object.Item;
 import fr.univmed.erss.parser.ItemHandler;
-import android.app.ListActivity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -30,17 +32,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemLongClickListener;
 
-public class PickActivity extends ListActivity {
+public class EventActivity extends android.app.ListActivity implements
+		OnItemLongClickListener {
 	// TAG for log information provided by this class .
 	private final String TAG = "PickActivity";
 
+	static final int DISPLAY_INFO = 0;
+	static final int FILTRE = 1;
+
 	private List<Item> items = new LinkedList<Item>();
 	private EfficientAdapter mAdapter;
+
+	private Item sItem;
+
 	private HashMap<String, Bitmap> strImg = new HashMap<String, Bitmap>();
 
 	@Override
@@ -50,22 +62,85 @@ public class PickActivity extends ListActivity {
 
 		mAdapter = new EfficientAdapter();
 		setListAdapter(mAdapter);
+		getListView().setOnItemLongClickListener(this);
 
 		new ThreadParse().execute();
 	}
 
 	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Toast.makeText(
+				this,
+				"position=" + position + " id=" + id + " val="
+						+ items.get(position).getTitle(), Toast.LENGTH_SHORT)
+				.show();
+	}
+
+	public boolean onItemLongClick(AdapterView<?> madapter, View v,
+			int position, long id) {
+		Log.i(TAG, "onItemLongClick");
+		sItem = items.get(position);
+		showDialog(DISPLAY_INFO);
+		return true;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		AlertDialog dialog = null;
+		switch (id) {
+		case DISPLAY_INFO:
+			final CharSequence[] items = { "Display info" };
+			dialog = new AlertDialog.Builder(EventActivity.this)
+					.setTitle("Action")
+					.setItems(items, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int item) {
+							Toast.makeText(getApplicationContext(),
+									sItem.getTitle(), Toast.LENGTH_SHORT)
+									.show();
+						}
+					}).create();
+
+			break;
+		case FILTRE:
+			final CharSequence[] listItems = { "Red", "Green", "Blue" };
+			final boolean[] checkedItem = { true, true, true };
+
+			dialog = new AlertDialog.Builder(EventActivity.this)
+					.setTitle("Pick a color")
+					.setMultiChoiceItems(listItems, checkedItem,
+							new DialogInterface.OnMultiChoiceClickListener() {
+								public void onClick(DialogInterface arg0,
+										int item, boolean checked) {
+									if (checked)
+										Toast.makeText(getApplicationContext(),
+												listItems[item],
+												Toast.LENGTH_SHORT).show();
+								}
+							}).create();
+			dialog.show();
+		default:
+			dialog = null;
+		}
+		return dialog;
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.homeactivity, menu);
+		inflater.inflate(R.menu.eventactivity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.sync:
-			new ThreadParse().execute();
+		case R.id.filtre:
+			Log.i(TAG, "onOptionsItemSelected : FILTRE");
+			showDialog(FILTRE); //Attention il n'affiche pas le dialog. C'est dans onCreateDialog qu'il est affiché!! A changer!
+			break;
+		case R.id.quitter:
+			System.exit(0);
 			break;
 		default:
 			break;
@@ -97,7 +172,7 @@ public class PickActivity extends ListActivity {
 
 		@Override
 		protected void onPreExecute() {
-			pDialog = new ProgressDialog(PickActivity.this);
+			pDialog = new ProgressDialog(EventActivity.this);
 			pDialog.setTitle("Sync");
 			pDialog.setMessage("Syncing with remote location .");
 			pDialog.show();
@@ -242,21 +317,21 @@ public class PickActivity extends ListActivity {
 			pDialog.cancel();
 			if (result) {
 				mAdapter.notifyDataSetChanged();
-				Toast.makeText(PickActivity.this, "List Updated",
+				Toast.makeText(EventActivity.this, "List Updated",
 						Toast.LENGTH_SHORT).show();
-				
-				//add the default icon
+
+				// add the default icon
 				strImg.put(null, BitmapFactory.decodeResource(
 						getResources(),
 						getResources().getIdentifier("evenement", "drawable",
 								"fr.univmed.erss")));
-				
+
 				for (int i = 0; i < items.size(); i++) {
 					if (!strImg.containsKey(items.get(i).getCategory())) {
 						// drawable name
 						String drawableName = sansAccent(items.get(i)
 								.getCategory().toLowerCase().replace(" ", "_"));
-						
+
 						// drawable id from name
 						int drawableId = getResources().getIdentifier(
 								drawableName, "drawable", "fr.univmed.erss"); // package
@@ -273,7 +348,7 @@ public class PickActivity extends ListActivity {
 					}
 				}
 			} else {
-				Toast.makeText(PickActivity.this, "Update Fail",
+				Toast.makeText(EventActivity.this, "Update Fail",
 						Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -293,7 +368,7 @@ public class PickActivity extends ListActivity {
 
 		public EfficientAdapter() {
 			// Cache the LayoutInflate to avoid asking for a new one each time.
-			mInflater = LayoutInflater.from(PickActivity.this);
+			mInflater = LayoutInflater.from(EventActivity.this);
 		}
 
 		/**
@@ -363,7 +438,7 @@ public class PickActivity extends ListActivity {
 			}
 
 			Bitmap icon = strImg.get(items.get(position).getCategory());
-			
+
 			// Bind the data efficiently with the holder.
 			holder.text.setText(items.get(position).getTitle());
 			holder.icon.setImageBitmap(icon);

@@ -166,7 +166,7 @@ public class FluxActivity extends ListActivity {
 			new ThreadParse().execute();
 			return true;
 		case R.id.evenementliste:
-			Intent intent = new Intent(this, PickActivity.class);
+			Intent intent = new Intent(this, EventActivity.class);
 			startActivity(intent);
 		default:
 			return super.onOptionsItemSelected(item);

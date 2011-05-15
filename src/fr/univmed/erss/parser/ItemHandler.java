@@ -7,6 +7,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import fr.univmed.erss.object.Item;
+
 import android.util.Log;
 
 public class ItemHandler extends DefaultHandler {

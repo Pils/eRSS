@@ -1,4 +1,4 @@
-package fr.univmed.erss.parser;
+package fr.univmed.erss.object;
 
 
 public class Item {
