@@ -43,6 +43,12 @@ public class ItemActivity extends Activity{
         description = thisIntent.getExtras().getString("description");
         link = thisIntent.getExtras().getString("link");
         pubDate = thisIntent.getExtras().getString("pubDate");
+      
+        
+        /*title = "TITRE";
+        description = "voici la super description";
+        link = "http://13.agendaculturel.fr/danse/marseille/theatre-la-criee/moving-target.html";
+        pubDate = "03/45/456423";*/
         
         /* Chargement de la vue */
         setContentView(R.layout.itemview);
