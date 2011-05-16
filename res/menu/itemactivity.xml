@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/retour"
+		android:title="@string/action"
+		android:icon="@drawable/retour"/>
+		
+	<item android:id="@+id/ajouter"
+	android:title="@string/calendar"
+	android:icon="@drawable/calendar"></item>
+</menu>
