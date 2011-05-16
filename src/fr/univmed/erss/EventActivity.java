@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -131,9 +132,17 @@ public class EventActivity extends android.app.ListActivity implements
 					.setTitle(R.string.action)
 					.setItems(items, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
-							Toast.makeText(getApplicationContext(),
-									sItem.getTitle(), Toast.LENGTH_SHORT)
-									.show();
+							
+							Intent intent = new Intent(EventActivity.this, ItemActivity.class);
+
+							/*On rajoute les valeurs à l’Intent
+							 * en tant qu’extra a ce dernier
+							 * Les extras sont différenciés par un “id” (string)*/
+							intent.putExtra("title", sItem.getTitle());
+							intent.putExtra("description", sItem.getDescription());
+							intent.putExtra("link", sItem.getLink());
+							intent.putExtra("pubDate", sItem.getPubDate());
+							startActivity(intent);
 						}
 					}).create();
 			break;
