@@ -52,7 +52,7 @@ public class ItemActivity extends Activity{
 		titleText.setText(title);
 		TextView descriptionText = (TextView) findViewById(R.id.description);
 		descriptionText.setText(description);
-		WebView wv = (WebView) findViewById(R.id.wv);
+		WebView wv = (WebView) findViewById(R.id.webView);
         wv.loadData(link, mimeType, encoding);
 		TextView pubDateText = (TextView) findViewById(R.id.pubDate);
 		pubDateText.setText(pubDate);
