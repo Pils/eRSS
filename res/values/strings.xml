@@ -20,5 +20,5 @@
    	<string name="action">Action</string>
    	<string name="display_title">Affiche les informations</string>
    	<string name="filtre_dialog_title">Par catégorie</string>
-   	<string name="calendar">calendar</string>
+   	<string name="ajout">Calendar</string>
 </resources>
