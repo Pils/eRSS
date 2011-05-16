@@ -36,7 +36,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -135,9 +134,9 @@ public class EventActivity extends android.app.ListActivity implements
 							
 							Intent intent = new Intent(EventActivity.this, ItemActivity.class);
 
-							/*On rajoute les valeurs à l’Intent
-							 * en tant qu’extra a ce dernier
-							 * Les extras sont différenciés par un “id” (string)*/
+							/*On rajoute les valeurs Ã  lâ€™Intent
+							 * en tant quâ€™extra a ce dernier
+							 * Les extras sont diffÃ©renciÃ©s par un â€œidâ€� (string)*/
 							intent.putExtra("title", sItem.getTitle());
 							intent.putExtra("description", sItem.getDescription());
 							intent.putExtra("link", sItem.getLink());
@@ -247,97 +246,97 @@ public class EventActivity extends android.app.ListActivity implements
 			String car = null;
 
 			car = new String("A");
-			result.add(car); /* '\u00C0' � alt-0192 */
-			result.add(car); /* '\u00C1' � alt-0193 */
-			result.add(car); /* '\u00C2' � alt-0194 */
-			result.add(car); /* '\u00C3' � alt-0195 */
-			result.add(car); /* '\u00C4' � alt-0196 */
-			result.add(car); /* '\u00C5' � alt-0197 */
+			result.add(car); /* '\u00C0' ï¿½ alt-0192 */
+			result.add(car); /* '\u00C1' ï¿½ alt-0193 */
+			result.add(car); /* '\u00C2' ï¿½ alt-0194 */
+			result.add(car); /* '\u00C3' ï¿½ alt-0195 */
+			result.add(car); /* '\u00C4' ï¿½ alt-0196 */
+			result.add(car); /* '\u00C5' ï¿½ alt-0197 */
 			car = new String("AE");
-			result.add(car); /* '\u00C6' � alt-0198 */
+			result.add(car); /* '\u00C6' ï¿½ alt-0198 */
 			car = new String("C");
-			result.add(car); /* '\u00C7' � alt-0199 */
+			result.add(car); /* '\u00C7' ï¿½ alt-0199 */
 			car = new String("E");
-			result.add(car); /* '\u00C8' � alt-0200 */
-			result.add(car); /* '\u00C9' � alt-0201 */
-			result.add(car); /* '\u00CA' � alt-0202 */
-			result.add(car); /* '\u00CB' � alt-0203 */
+			result.add(car); /* '\u00C8' ï¿½ alt-0200 */
+			result.add(car); /* '\u00C9' ï¿½ alt-0201 */
+			result.add(car); /* '\u00CA' ï¿½ alt-0202 */
+			result.add(car); /* '\u00CB' ï¿½ alt-0203 */
 			car = new String("I");
-			result.add(car); /* '\u00CC' � alt-0204 */
-			result.add(car); /* '\u00CD' � alt-0205 */
-			result.add(car); /* '\u00CE' � alt-0206 */
-			result.add(car); /* '\u00CF' � alt-0207 */
+			result.add(car); /* '\u00CC' ï¿½ alt-0204 */
+			result.add(car); /* '\u00CD' ï¿½ alt-0205 */
+			result.add(car); /* '\u00CE' ï¿½ alt-0206 */
+			result.add(car); /* '\u00CF' ï¿½ alt-0207 */
 			car = new String("D");
-			result.add(car); /* '\u00D0' � alt-0208 */
+			result.add(car); /* '\u00D0' ï¿½ alt-0208 */
 			car = new String("N");
-			result.add(car); /* '\u00D1' � alt-0209 */
+			result.add(car); /* '\u00D1' ï¿½ alt-0209 */
 			car = new String("O");
-			result.add(car); /* '\u00D2' � alt-0210 */
-			result.add(car); /* '\u00D3' � alt-0211 */
-			result.add(car); /* '\u00D4' � alt-0212 */
-			result.add(car); /* '\u00D5' � alt-0213 */
-			result.add(car); /* '\u00D6' � alt-0214 */
+			result.add(car); /* '\u00D2' ï¿½ alt-0210 */
+			result.add(car); /* '\u00D3' ï¿½ alt-0211 */
+			result.add(car); /* '\u00D4' ï¿½ alt-0212 */
+			result.add(car); /* '\u00D5' ï¿½ alt-0213 */
+			result.add(car); /* '\u00D6' ï¿½ alt-0214 */
 			car = new String("*");
-			result.add(car); /* '\u00D7' � alt-0215 */
+			result.add(car); /* '\u00D7' ï¿½ alt-0215 */
 			car = new String("0");
-			result.add(car); /* '\u00D8' � alt-0216 */
+			result.add(car); /* '\u00D8' ï¿½ alt-0216 */
 			car = new String("U");
-			result.add(car); /* '\u00D9' � alt-0217 */
-			result.add(car); /* '\u00DA' � alt-0218 */
-			result.add(car); /* '\u00DB' � alt-0219 */
-			result.add(car); /* '\u00DC' � alt-0220 */
+			result.add(car); /* '\u00D9' ï¿½ alt-0217 */
+			result.add(car); /* '\u00DA' ï¿½ alt-0218 */
+			result.add(car); /* '\u00DB' ï¿½ alt-0219 */
+			result.add(car); /* '\u00DC' ï¿½ alt-0220 */
 			car = new String("Y");
-			result.add(car); /* '\u00DD' � alt-0221 */
-			car = new String("�");
-			result.add(car); /* '\u00DE' � alt-0222 */
+			result.add(car); /* '\u00DD' ï¿½ alt-0221 */
+			car = new String("ï¿½");
+			result.add(car); /* '\u00DE' ï¿½ alt-0222 */
 			car = new String("B");
-			result.add(car); /* '\u00DF' � alt-0223 */
+			result.add(car); /* '\u00DF' ï¿½ alt-0223 */
 			car = new String("a");
-			result.add(car); /* '\u00E0' � alt-0224 */
-			result.add(car); /* '\u00E1' � alt-0225 */
-			result.add(car); /* '\u00E2' � alt-0226 */
-			result.add(car); /* '\u00E3' � alt-0227 */
-			result.add(car); /* '\u00E4' � alt-0228 */
-			result.add(car); /* '\u00E5' � alt-0229 */
+			result.add(car); /* '\u00E0' ï¿½ alt-0224 */
+			result.add(car); /* '\u00E1' ï¿½ alt-0225 */
+			result.add(car); /* '\u00E2' ï¿½ alt-0226 */
+			result.add(car); /* '\u00E3' ï¿½ alt-0227 */
+			result.add(car); /* '\u00E4' ï¿½ alt-0228 */
+			result.add(car); /* '\u00E5' ï¿½ alt-0229 */
 			car = new String("ae");
-			result.add(car); /* '\u00E6' � alt-0230 */
+			result.add(car); /* '\u00E6' ï¿½ alt-0230 */
 			car = new String("c");
-			result.add(car); /* '\u00E7' � alt-0231 */
+			result.add(car); /* '\u00E7' ï¿½ alt-0231 */
 			car = new String("e");
-			result.add(car); /* '\u00E8' � alt-0232 */
-			result.add(car); /* '\u00E9' � alt-0233 */
-			result.add(car); /* '\u00EA' � alt-0234 */
-			result.add(car); /* '\u00EB' � alt-0235 */
+			result.add(car); /* '\u00E8' ï¿½ alt-0232 */
+			result.add(car); /* '\u00E9' ï¿½ alt-0233 */
+			result.add(car); /* '\u00EA' ï¿½ alt-0234 */
+			result.add(car); /* '\u00EB' ï¿½ alt-0235 */
 			car = new String("i");
-			result.add(car); /* '\u00EC' � alt-0236 */
-			result.add(car); /* '\u00ED' � alt-0237 */
-			result.add(car); /* '\u00EE' � alt-0238 */
-			result.add(car); /* '\u00EF' � alt-0239 */
+			result.add(car); /* '\u00EC' ï¿½ alt-0236 */
+			result.add(car); /* '\u00ED' ï¿½ alt-0237 */
+			result.add(car); /* '\u00EE' ï¿½ alt-0238 */
+			result.add(car); /* '\u00EF' ï¿½ alt-0239 */
 			car = new String("d");
-			result.add(car); /* '\u00F0' � alt-0240 */
+			result.add(car); /* '\u00F0' ï¿½ alt-0240 */
 			car = new String("n");
-			result.add(car); /* '\u00F1' � alt-0241 */
+			result.add(car); /* '\u00F1' ï¿½ alt-0241 */
 			car = new String("o");
-			result.add(car); /* '\u00F2' � alt-0242 */
-			result.add(car); /* '\u00F3' � alt-0243 */
-			result.add(car); /* '\u00F4' � alt-0244 */
-			result.add(car); /* '\u00F5' � alt-0245 */
-			result.add(car); /* '\u00F6' � alt-0246 */
+			result.add(car); /* '\u00F2' ï¿½ alt-0242 */
+			result.add(car); /* '\u00F3' ï¿½ alt-0243 */
+			result.add(car); /* '\u00F4' ï¿½ alt-0244 */
+			result.add(car); /* '\u00F5' ï¿½ alt-0245 */
+			result.add(car); /* '\u00F6' ï¿½ alt-0246 */
 			car = new String("/");
-			result.add(car); /* '\u00F7' � alt-0247 */
+			result.add(car); /* '\u00F7' ï¿½ alt-0247 */
 			car = new String("0");
-			result.add(car); /* '\u00F8' � alt-0248 */
+			result.add(car); /* '\u00F8' ï¿½ alt-0248 */
 			car = new String("u");
-			result.add(car); /* '\u00F9' � alt-0249 */
-			result.add(car); /* '\u00FA' � alt-0250 */
-			result.add(car); /* '\u00FB' � alt-0251 */
-			result.add(car); /* '\u00FC' � alt-0252 */
+			result.add(car); /* '\u00F9' ï¿½ alt-0249 */
+			result.add(car); /* '\u00FA' ï¿½ alt-0250 */
+			result.add(car); /* '\u00FB' ï¿½ alt-0251 */
+			result.add(car); /* '\u00FC' ï¿½ alt-0252 */
 			car = new String("y");
-			result.add(car); /* '\u00FD' � alt-0253 */
-			car = new String("�");
-			result.add(car); /* '\u00FE' � alt-0254 */
+			result.add(car); /* '\u00FD' ï¿½ alt-0253 */
+			car = new String("ï¿½");
+			result.add(car); /* '\u00FE' ï¿½ alt-0254 */
 			car = new String("y");
-			result.add(car); /* '\u00FF' � alt-0255 */
+			result.add(car); /* '\u00FF' ï¿½ alt-0255 */
 			result.add(car); /* '\u00FF' alt-0255 */
 
 			return result;
