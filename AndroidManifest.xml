@@ -17,5 +17,6 @@
 
 		<activity android:name="EventActivity"/>
 		<activity android:name="FluxActivity"/>
+		<activity android:name="ItemActivity"/>
     </application>
 </manifest>
