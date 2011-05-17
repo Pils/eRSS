@@ -82,7 +82,7 @@ public class ItemActivity extends Activity{
 		/*On regarde la source du clic*/
 		switch (item.getItemId()) {
 		case R.id.ajouter:	// Si il s'agit du bouton calendar
-			/* FAIRE l'ACTION POUR GOOGLE CALENDAR */
+			//TODO FAIRE l'ACTION POUR GOOGLE CALENDAR
 			return true;
 		case R.id.retour:	//Si il s'agit du bouton retour
 			Intent intent = new Intent(this, EventActivity.class);	// On lance une nouvelle EventActivity
