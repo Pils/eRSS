@@ -12,8 +12,11 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -180,7 +183,24 @@ public class FluxActivity extends ListActivity {
 		/*On regarde la source du clic*/
 		switch (item.getItemId()) {
 		case R.id.actualise:	// Si il s'agit du bouton actualiser
-			new ThreadParse().execute(); 	//On lance un nouveau parsing
+			//On crée une alert qui informe l'utilisateur que cela effacera ses preferences
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(R.string.actualise_warning)
+				.setCancelable(false)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					//S'il réponds oui, on actualise la liste
+					public void onClick(DialogInterface dialog, int id) {
+						new ThreadParse().execute(); 	
+					}
+				})
+				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					//S'il reponds non, on reste à l'ecran normal d'activity
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+			AlertDialog alert = builder.create();
+			alert.show(); //On affiche l'alert
 			return true;
 		case R.id.evenementliste:	//Si il s'agit du bouton evenement
 			Intent intent = new Intent(this, EventActivity.class);	// On lance une nouvelle EventActivity

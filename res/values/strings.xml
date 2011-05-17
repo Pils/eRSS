@@ -13,6 +13,9 @@
    	<string name="flux_activity_title">Choix des flux à suivre</string>
    	<string name="actualise">Actualiser</string>
    	<string name="evenementListe">Evenements</string>
+   	<string name="actualise_warning">Actualiser effacera vos préférences.\n Voulez-vous continuer ?</string>
+   	<string name="yes">OUI</string>
+   	<string name="no">NON</string>
    	
    	<!-- Dialogue sur l'ecran EventActivity -->
    	<string name="filtre">Filtrer</string>
