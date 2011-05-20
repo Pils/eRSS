@@ -8,11 +8,13 @@
     
 <TextView  
 	android:id="@+id/title"
+	android:layout_gravity="center_vertical"
+	android:textStyle="bold"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
     />
     
-<TextView
+<WebView
     android:id="@+id/description"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
@@ -24,6 +26,12 @@
     android:layout_height="wrap_content"
     />
     
+<TextView  
+	android:id="@+id/link"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    />
+
 <TextView
     android:id="@+id/pubDate"
     android:layout_width="fill_parent" 

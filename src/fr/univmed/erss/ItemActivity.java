@@ -26,7 +26,7 @@ public class ItemActivity extends Activity{
 	private String link;
 	private String pubDate;
 	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -56,11 +56,20 @@ public class ItemActivity extends Activity{
 		//On récupère les champs et on leur affecte le texte
         TextView titleText = (TextView) findViewById(R.id.title);
 		titleText.setText(title);
-		TextView descriptionText = (TextView) findViewById(R.id.description);
-		descriptionText.setText(description);
-		WebView wv = (WebView) findViewById(R.id.webView);
-        wv.loadData(link, mimeType, encoding);
-		TextView pubDateText = (TextView) findViewById(R.id.pubDate);
+		
+		WebView wv1 = (WebView) findViewById(R.id.description);
+		wv1.loadData(description, mimeType, encoding);
+		
+		/*WebView wv2 = (WebView) findViewById(R.id.webView);
+		wv2.getSettings().setJavaScriptEnabled(true);
+		wv2.loadUrl(link);*/
+		
+		TextView linkText = (TextView) findViewById(R.id.link);
+		linkText.setClickable(true);
+		linkText.setText(link);
+		
+		
+        TextView pubDateText = (TextView) findViewById(R.id.pubDate);
 		pubDateText.setText(pubDate);
 	}
 	
