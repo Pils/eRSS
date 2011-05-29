@@ -1,12 +1,7 @@
 package fr.univmed.erss.calendar;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
 import fr.univmed.erss.object.Item;
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
