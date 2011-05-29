@@ -4,6 +4,8 @@ package fr.univmed.erss;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,12 +45,6 @@ public class ItemActivity extends Activity{
         description = thisIntent.getExtras().getString("description");
         link = thisIntent.getExtras().getString("link");
         pubDate = thisIntent.getExtras().getString("pubDate");
-      
-        
-        /*title = "TITRE";
-        description = "voici la super description";
-        link = "http://13.agendaculturel.fr/danse/marseille/theatre-la-criee/moving-target.html";
-        pubDate = "03/45/456423";*/
         
         /* Chargement de la vue */
         setContentView(R.layout.itemview);
@@ -57,18 +53,18 @@ public class ItemActivity extends Activity{
         TextView titleText = (TextView) findViewById(R.id.title);
 		titleText.setText(title);
 		
+		/* Récupération de la description en format html
+		 * on l'affiche avec un WebView
+		 */
 		WebView wv1 = (WebView) findViewById(R.id.description);
 		wv1.loadData(description, mimeType, encoding);
 		
-		/*WebView wv2 = (WebView) findViewById(R.id.webView);
-		wv2.getSettings().setJavaScriptEnabled(true);
-		wv2.loadUrl(link);*/
-		
+		/* affichage du lien web de l'évènement et sur clic ouvre dans un navigateur */
 		TextView linkText = (TextView) findViewById(R.id.link);
-		linkText.setClickable(true);
-		linkText.setText(link);
+		linkText.setText(Html.fromHtml("<a href=\"" + link + "\">"+link + "</a>"));
+		linkText.setMovementMethod(LinkMovementMethod.getInstance());
 		
-		
+		/* affichage de la date de publication de l'évènement */
         TextView pubDateText = (TextView) findViewById(R.id.pubDate);
 		pubDateText.setText(pubDate);
 	}
@@ -101,5 +97,4 @@ public class ItemActivity extends Activity{
 
 		}
 	}
-	
 }
