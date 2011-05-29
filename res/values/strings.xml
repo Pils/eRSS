@@ -25,7 +25,6 @@
    	<string name="filtre_dialog_title">Par catégorie</string>
    	<string name="ajout">Calendar</string>
    	<string name="alert_dialog_ok">Ok</string>
-   	<string name="alert_dialog_cancel">Cancel</string>
    	<string name="info_true">Item mise à vrai</string>
    	<string name="info_false">Item mise à faux</string>
 </resources>

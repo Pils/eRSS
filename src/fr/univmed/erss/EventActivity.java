@@ -48,15 +48,24 @@ public class EventActivity extends android.app.ListActivity implements
 	private final String TAG = "EventActivity";
 	// package name not good idea.
 	private static final String PACKAGE_NAME = "fr.univmed.erss";
+
+	// Entiers identifiant le dialog à afficher
 	private static final int REMOVE_INFO = 0;
 	private static final int FILTRE = 1;
 
+	// Liste des categories qui sont affichées dans le filtre
 	private CharSequence[] listCategory;
+	// Est vrai l'item i est selectionné dans le filtre
+	// Valeur i correspondant aussi au String categorie dans listCategory
 	private boolean[] listCheckedItem;
+	// HashMap associant une categorie à son image
 	private HashMap<String, Bitmap> strImg = new HashMap<String, Bitmap>();
+	// Liste de tous les items
 	private List<Item> items = new LinkedList<Item>();
-	private EfficientAdapter mAdapter;
+	// Item selectionné quand on clique dessus
 	private Item sItem;
+
+	private EfficientAdapter mAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,15 +76,17 @@ public class EventActivity extends android.app.ListActivity implements
 		setListAdapter(mAdapter);
 		getListView().setOnItemLongClickListener(this);
 
+		// On parse le flux
 		new ThreadParse().execute();
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
+		// L'item selectionnée est sItem
 		sItem = items.get(position);
-		Intent intent = new Intent(EventActivity.this, ItemActivity.class);
 
+		Intent intent = new Intent(EventActivity.this, ItemActivity.class);
 		/*
 		 * On rajoute les valeurs Ã  lâ€™Intent en tant quâ€™extra a ce dernier
 		 * Les extras sont diffÃ©renciÃ©s par un â€œidâ€� (string)
@@ -87,13 +98,23 @@ public class EventActivity extends android.app.ListActivity implements
 		startActivity(intent);
 	}
 
+	/**
+	 * Fonction lancé quand on clique longtemps sur un item. Nous lancer un
+	 * dialog demandant à l'utilisateur s'il veut supprimer l'item sur lequel il
+	 * a cliqué.
+	 */
 	public boolean onItemLongClick(AdapterView<?> madapter, View v,
 			int position, long id) {
 		Log.i(TAG, "onItemLongClick");
+		// On lance le dialog
+		// Dialog encore "null"
 		showDialog(REMOVE_INFO);
 		return true;
 	}
 
+	/**
+	 * Initialisation à vrai de la liste de boolean pour les items filtrés.
+	 */
 	private void initListCheckedItem() {
 		listCheckedItem = new boolean[listCategory.length];
 		for (int i = 0; i < listCategory.length; i++) {
@@ -106,9 +127,14 @@ public class EventActivity extends android.app.ListActivity implements
 		AlertDialog dialog = null;
 		switch (id) {
 		case REMOVE_INFO:
-			// TO DO
+			// A faire
+			// Lancer un dialog permettant à l'utilisateur de choisir s'il veut
+			// supprimer ou non l'item sur lequel il a longtemps cliqué
 			break;
 		case FILTRE:
+			// Création du dialog de filtre.
+			// A noté que l'on a initialisé au préalable (dans onPostExecute())
+			// listCategory et listCheckedItem
 			dialog = new AlertDialog.Builder(EventActivity.this)
 					.setTitle(R.string.filtre_dialog_title)
 					.setMultiChoiceItems(listCategory, listCheckedItem,
@@ -131,13 +157,6 @@ public class EventActivity extends android.app.ListActivity implements
 										int whichButton) {
 									// To Do.
 								}
-							})
-					.setNegativeButton(R.string.alert_dialog_cancel,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									// Do nothing.
-								}
 							}).create();
 			break;
 		default:
@@ -146,6 +165,9 @@ public class EventActivity extends android.app.ListActivity implements
 		return dialog;
 	}
 
+	/**
+	 * On créer les options correspondant au fichier xml eventactivity
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -153,6 +175,9 @@ public class EventActivity extends android.app.ListActivity implements
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	/**
+	 * On gère les actions sur le menu
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -172,6 +197,13 @@ public class EventActivity extends android.app.ListActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * On lance le parsing du flux
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	private void retrieveData() throws ParserConfigurationException,
 			SAXException, IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -179,15 +211,19 @@ public class EventActivity extends android.app.ListActivity implements
 		xmlReader = factory.newSAXParser();
 		ItemHandler handler = new ItemHandler();
 
+		// TO DO
 		URL source = new URL(Flux.URL_AGENDA);
 		InputSource inputSourceUrl = new InputSource(source.toString());
 		xmlReader.parse(inputSourceUrl, handler);
 
-		// xmlReader.parse(getAssets().open("promotions_hotels.xml"), handler);
-
 		items = handler.getItems();
 	}
 
+	/**
+	 * Initialisation de la liste des caractères spéciaux
+	 * 
+	 * @return La liste des caractères spéciaux
+	 */
 	private Vector<String> initMap() {
 		Vector<String> result = new Vector<String>();
 		String car = null;
@@ -289,6 +325,10 @@ public class EventActivity extends android.app.ListActivity implements
 		return result;
 	}
 
+	/**
+	 * Transforme la chaine de caractère avec accent sans accent Utilise la
+	 * liste de caractères spéciaux
+	 */
 	private String sansAccent(String chaine) {
 		java.lang.StringBuffer Result = new StringBuffer(chaine);
 		int MIN = 192;
@@ -336,6 +376,10 @@ public class EventActivity extends android.app.ListActivity implements
 			return true;
 		}
 
+		/**
+		 * Initilisation de la HashMap qui fait correspondre à une categorie une
+		 * image Bitmap
+		 */
 		private void initStrImg() {
 			// add the default icon
 			strImg.put(null, BitmapFactory.decodeResource(
@@ -371,25 +415,37 @@ public class EventActivity extends android.app.ListActivity implements
 			}
 		}
 
+		/**
+		 * Initilisation de la liste des categories
+		 */
 		private void initListCategory() {
 			String[] arrayCategorie = new String[strImg.size()];
 			strImg.keySet().toArray(arrayCategorie);
+			// On supprime le première élément de la HashMap qui correspond à
+			// l'image par défaut si on trouve pas de categorie ou que celle si
+			// n'a pas d'image associée
 			listCategory = new CharSequence[strImg.size() - 1];
 			for (int i = 0; i < strImg.size() - 1; i++)
 				listCategory[i] = arrayCategorie[i + 1];
 		}
 
+		/**
+		 * On exécute cette fonction après avoir fait le parsing des flux RSS
+		 */
 		@Override
 		protected void onPostExecute(Boolean result) {
 			pDialog.cancel();
 			if (result) {
 				mAdapter.notifyDataSetChanged();
+				// Initialisation des listes
+				// L'ordre est important
 				initStrImg();
 				initListCategory();
 				initListCheckedItem();
 				Toast.makeText(EventActivity.this, R.string.update_success,
 						Toast.LENGTH_SHORT).show();
 			} else {
+				// Erreur dans le parsing
 				Toast.makeText(EventActivity.this, R.string.update_fail,
 						Toast.LENGTH_SHORT).show();
 			}
@@ -444,12 +500,22 @@ public class EventActivity extends android.app.ListActivity implements
 			return position;
 		}
 
+		/**
+		 * Fonction qui vérifie si la categorie est activé dans le filtre ou non
+		 * 
+		 * @param category
+		 *            categorie à vérifier
+		 * @return vrai si la categorie est dans le filtre faux sinon
+		 */
 		private boolean isInFilter(String category) {
 			int i;
 			for (i = 0; i < listCategory.length; i++) {
-				if (sansAccent(listCategory[i].toString().toLowerCase()
-						.replace(" ", "_")).equals(sansAccent(category
-						.toLowerCase().replace(" ", "_"))))
+				// On fais la comparaison sur les chaines sans accents, en
+				// minuscule et sans caractères spéciaux
+				if (sansAccent(
+						listCategory[i].toString().toLowerCase()
+								.replace(" ", "_")).equals(
+						sansAccent(category.toLowerCase().replace(" ", "_"))))
 					break;
 			}
 			return listCheckedItem[i];
@@ -462,6 +528,8 @@ public class EventActivity extends android.app.ListActivity implements
 		 *      android.view.ViewGroup)
 		 */
 		public View getView(int position, View convertView, ViewGroup parent) {
+			// On vérifie au préalable si l'item est à afficher ou non en
+			// fonction du filtre
 			if (isInFilter(items.get(position).getCategory())) {
 				// A ViewHolder keeps references to children views to avoid
 				// unneccessary calls to findViewById() on each row.
