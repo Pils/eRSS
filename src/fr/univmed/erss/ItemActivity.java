@@ -1,6 +1,8 @@
 package fr.univmed.erss;
 
 
+import fr.univmed.erss.calendar.GoogleAgenda;
+import fr.univmed.erss.object.Item;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ public class ItemActivity extends Activity{
 	// TAG for log resIdinformation provided by this class .
 	private final String LOG_TAG = "ItemActivity";
 
+	private Item myItem = new Item();
 	private String title;
 	private String description;
 	private String link;
@@ -45,6 +48,12 @@ public class ItemActivity extends Activity{
         description = thisIntent.getExtras().getString("description");
         link = thisIntent.getExtras().getString("link");
         pubDate = thisIntent.getExtras().getString("pubDate");
+        
+        /*utile pour l'ajout d'un évènement */
+        myItem.setTitle(title);
+        myItem.setDescription(description);
+        myItem.setLink(link);
+        myItem.setPubDate(pubDate);
         
         /* Chargement de la vue */
         setContentView(R.layout.itemview);
@@ -90,7 +99,9 @@ public class ItemActivity extends Activity{
 				Intent intent = new Intent(this, EventActivity.class);	// On lance une nouvelle EventActivity
 				startActivity(intent);
 			case R.id.ajouter:	// Si il s'agit du bouton calendar
-				//TODO FAIRE l'ACTION POUR GOOGLE CALENDAR
+		        GoogleAgenda agenda = new GoogleAgenda(this);
+		        agenda.createNewCalendar("FLUX PLANNING", "myDisplayCalendar");
+		        agenda.createEvent( agenda.findUpdateCalendar(), myItem);
 				return true;
 		default:
 			return super.onOptionsItemSelected(item);
