@@ -5,6 +5,6 @@
 		android:icon="@drawable/calendar"></item>
 	
 	<item android:id="@+id/retour"
-		android:title="@string/action"
+		android:title="@string/retour"
 		android:icon="@drawable/retour"/>
 </menu>

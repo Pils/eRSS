@@ -20,7 +20,7 @@
    	<!-- Dialogue sur l'ecran EventActivity -->
    	<string name="filtre">Filtrer</string>
    	<string name="flux">Flux</string>
-   	<string name="action">Action</string>
+   	<string name="retour">Retour</string>
    	<string name="display_title">Affiche les informations</string>
    	<string name="filtre_dialog_title">Par catégorie</string>
    	<string name="ajout">Calendar</string>
