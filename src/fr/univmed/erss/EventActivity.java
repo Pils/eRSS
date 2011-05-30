@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import fr.univmed.erss.database.ErssDB;
 import fr.univmed.erss.database.table.FluxTable;
+import fr.univmed.erss.exception.EmptyListException;
 import fr.univmed.erss.object.Flux;
 import fr.univmed.erss.object.Item;
 import fr.univmed.erss.parser.ItemHandler;
@@ -246,16 +247,21 @@ public class EventActivity extends android.app.ListActivity implements
 	 * @throws IOException
 	 */
 	private void retrieveData() throws ParserConfigurationException,
-			SAXException, IOException {
+			SAXException, IOException, EmptyListException {
 		initFluxs();
+		
+		int nbCheck=0;
 		
 		ItemHandler handler = new ItemHandler();
 		for (int i = 0; i < fluxs.size(); i++){
 			if(fluxs.get(i).isChecked()){
 				parseFlux(new URL(fluxs.get(i).getUrl()) , handler);
 				items.addAll(handler.getItems());
+				nbCheck++;
 			}
 		}
+		if(nbCheck==0)
+			throw new EmptyListException("Empty List");
 	}
 
 	/**
@@ -446,6 +452,9 @@ public class EventActivity extends android.app.ListActivity implements
 			} catch (SAXException e) {
 				e.printStackTrace();
 				return false;
+			} catch (EmptyListException e) {
+				e.printStackTrace();
+				return false;
 			}
 			return true;
 		}
@@ -517,6 +526,7 @@ public class EventActivity extends android.app.ListActivity implements
 		@Override
 		protected void onPostExecute(Boolean result) {
 			pDialog.cancel();
+			Log.i(TAG, result+"");
 			if (result) {
 				mAdapter.notifyDataSetChanged();
 				// Initialisation des listes

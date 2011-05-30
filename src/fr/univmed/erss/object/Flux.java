@@ -8,10 +8,6 @@ package fr.univmed.erss.object;
  *
  */
 public class Flux {
-	//TODO les liens doivent disparaitre
-	public final static String URL_HOTEL = "http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml";
-	public final static String URL_AGENDA = "http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml";
-	
 	private long id;
 	private String name;
 	private String url;
