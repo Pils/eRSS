@@ -4,6 +4,9 @@ package fr.univmed.erss;
 import fr.univmed.erss.calendar.GoogleAgenda;
 import fr.univmed.erss.object.Item;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Classe definissant l'ecran et l'activite qui affiche un objet apres un clic long
@@ -24,7 +28,11 @@ public class ItemActivity extends Activity{
 	
 	// TAG for log resIdinformation provided by this class .
 	private final String LOG_TAG = "ItemActivity";
-
+	private static final int CALENDAR_LIST = 0;
+	private GoogleAgenda agenda = new GoogleAgenda(this);
+	private int selectedCalendar;
+	private CharSequence[] listCal;
+	
 	private Item myItem = new Item();
 	private String title;
 	private String description;
@@ -99,13 +107,41 @@ public class ItemActivity extends Activity{
 				Intent intent = new Intent(this, EventActivity.class);	// On lance une nouvelle EventActivity
 				startActivity(intent);
 			case R.id.ajouter:	// Si il s'agit du bouton calendar
-		        GoogleAgenda agenda = new GoogleAgenda(this);
-		        agenda.createNewCalendar("FLUX PLANNING", "myDisplayCalendar");
-		        agenda.createEvent( agenda.findUpdateCalendar(), myItem);
+				/* Gestion du calendrier avec ajout de l'item courant
+				 * création d'un agenda local
+				 * recherche des calendriers existants
+				 * ajout de l'évènement dans le calendrier sélectionné
+				 */
+				showDialog(CALENDAR_LIST);
 				return true;
 		default:
 			return super.onOptionsItemSelected(item);
-
 		}
+	}
+	
+	@Override
+	public Dialog onCreateDialog(int id) {
+		AlertDialog dialog = null;
+		switch (id) {
+		case CALENDAR_LIST:
+			/* Création du dialog de calendars.
+			 * A noté qu'on l'a initialisé au préalable dans onPostExecute())
+			*/
+			dialog = new AlertDialog.Builder(ItemActivity.this)
+					.setTitle(R.string.calendar_dialog_title)
+					.setSingleChoiceItems(listCal=agenda.listAllCalendarDetails(), selectedCalendar,
+							new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int selected) {
+									Toast.makeText(getApplicationContext(),
+									(String)listCal[selectedCalendar],
+									Toast.LENGTH_SHORT).show();
+									agenda.createEvent( agenda.findUpdateCalendar((String)listCal[selected]), myItem);
+								}
+							}).create();
+			break;
+		default:
+			dialog = null;
+		}
+		return dialog;
 	}
 }

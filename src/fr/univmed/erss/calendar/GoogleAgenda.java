@@ -1,5 +1,8 @@
 package fr.univmed.erss.calendar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import fr.univmed.erss.object.Item;
 import android.app.Activity;
 import android.content.ContentValues;
@@ -18,7 +21,6 @@ public class GoogleAgenda {
 
 	public static String LOG_TAG = "GoogleAgenda";
 	
-	private String CALENDAR_NAME = "FLUX PLANNING";
 	private String sync_account = "xavier.christienne@gmail.com";
 	private Activity activity;
 	private String Location = "Région marseillaise";
@@ -97,7 +99,7 @@ public class GoogleAgenda {
         return insertedUri;
     }
 	 
-	 public int findUpdateCalendar() {
+	 public int findUpdateCalendar(String calendarName) {
 	        int result = -1;
 	        
 	        String[] projection = new String[] { "_id", "name" };
@@ -107,60 +109,99 @@ public class GoogleAgenda {
 	        Cursor managedCursor = getCalendarManagedCursor(projection, selection,
 	                path);
 
-	        if (managedCursor != null && managedCursor.moveToFirst()) {
+	        if(managedCursor != null && managedCursor.moveToFirst()){
 
 	            Log.i(LOG_TAG, "Listing Selected Calendars Only");
 
 	            int nameColumn = managedCursor.getColumnIndex("name");
 	            int idColumn = managedCursor.getColumnIndex("_id");
 
-	            do {
-	                String calName = managedCursor.getString(nameColumn);
-	                String calId = managedCursor.getString(idColumn);
-	                Log.i(LOG_TAG, "Found Calendar '" + calName + "' (ID=" + calId + ")");
-	                if (calName != null && calName.equals(CALENDAR_NAME)) {
-	                	result = Integer.parseInt(calId);
-	                }
-	            } while (managedCursor.moveToNext());
-	        } else {
+	            do{
+	               String calName = managedCursor.getString(nameColumn);
+	               String calId = managedCursor.getString(idColumn);
+	               Log.i(LOG_TAG, "Found Calendar '" + calName + "' (ID=" + calId + ")");
+	               if(calName != null && calName.equals(calendarName)){
+	            	   result = Integer.parseInt(calId);
+	               }
+	             }while (managedCursor.moveToNext());
+	        }
+	        else{
 	            Log.i(LOG_TAG, "No Calendars");
 	        }
-
 	        return result;
-
 	    }
 	 
 	 
-	 private String getCalendarUriBase() {
+	 
+	 public CharSequence[] listAllCalendarDetails() {
+			
+			String[] projection = new String[] { "_id", "_sync_account", "name", "displayName" };
+			String selection = "selected=1";
+	        Cursor managedCursor = getCalendarManagedCursor(projection, selection, "calendars");
+	        
+	        ArrayList<String> listNames = new ArrayList<String>();
+	        
+	        if(managedCursor != null && managedCursor.moveToFirst()){
+	            Log.i(LOG_TAG, "Listing Calendars with Details");
+
+	            do{
+	                Log.i(LOG_TAG, "**START Calendar Description**");
+
+	                for(int i = 0; i < managedCursor.getColumnCount(); i++){
+	                    Log.i(LOG_TAG, managedCursor.getColumnName(i) + "="
+	                            + managedCursor.getString(i));
+	                }
+	                
+	                String id = managedCursor.getString(managedCursor.getColumnIndex("_id"));
+	                String title = managedCursor.getString(managedCursor.getColumnIndex("displayName"));
+	                
+	                if( id.equals("1")){
+	                    sync_account = managedCursor.getString(managedCursor.getColumnIndex("_sync_account"));
+	                }
+	                
+	                //calendars.put(id, title);
+	                listNames.add(title);
+	                
+	                Log.i(LOG_TAG, "**END Calendar Description**");
+	            }while (managedCursor.moveToNext());
+	            
+	            managedCursor.close();
+	        }
+	        else{
+	            Log.i(LOG_TAG, "No Calendars");
+	        }
+	        CharSequence[] calendars = new CharSequence[listNames.size()];
+	        for(int i=0; i<listNames.size(); i++)
+				calendars[i] = listNames.get(i);
+	        
+	        return calendars;
+	    }
+	 
+	 
+	 private String getCalendarUriBase(){
 		   	
 	        String calendarUriBase = null;
 	        Uri calendars = Uri.parse("content://calendar/calendars");
 	        Cursor managedCursor = null;
-	        try {
+	        try{
 	            managedCursor = activity.managedQuery(calendars, null, null, null, null);
-	        } catch (Exception e) {
-	            // eat
-	        }
+	        }catch (Exception e) {}
 
-	        if (managedCursor != null) {
+	        if(managedCursor != null){
 	            calendarUriBase = "content://calendar/";
-	        } else {
+	        }
+	        else{
 	            calendars = Uri.parse("content://com.android.calendar/calendars");
-	            try {
+	            try{
 	                managedCursor = activity.managedQuery(calendars, null, null, null, null);
-	            } catch (Exception e) {
-	                // eat
-	            }
+	            }catch (Exception e){}
 
-	            if (managedCursor != null) {
+	            if(managedCursor != null){
 	                calendarUriBase = "content://com.android.calendar/";
 	            }
-
 	        }
-
 	        managedCursor.close();
 	        
 	        return calendarUriBase;
 	    }
-	
 }

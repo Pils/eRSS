@@ -27,4 +27,5 @@
    	<string name="alert_dialog_ok">Ok</string>
    	<string name="info_true">Item mise à vrai</string>
    	<string name="info_false">Item mise à faux</string>
+   	<string name="calendar_dialog_title">Liste des calendriers utilisés</string>
 </resources>
