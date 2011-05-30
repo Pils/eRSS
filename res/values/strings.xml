@@ -29,4 +29,5 @@
    	<string name="info_false">Item mise à faux</string>
    	<string name="calendar_dialog_title">Liste des calendriers utilisés</string>
    	<string name="alert_dialog_cancel">Annuler</string>
+   	<string name="update_event_fail">Echec : la liste des flux d\'évènements est vide</string>
 </resources>
