@@ -16,7 +16,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -223,15 +222,8 @@ public class FluxActivity extends ListActivity {
 			AlertDialog alert = builder.create();
 			alert.show(); // On affiche l'alert
 			return true;
-		case R.id.evenementliste: // Si il s'agit du bouton evenement
-			Intent intent = new Intent(this, EventActivity.class); // On lance
-																	// une
-																	// nouvelle
-																	// EventActivity
-			startActivity(intent);
 		default:
 			return super.onOptionsItemSelected(item);
-
 		}
 	}
 

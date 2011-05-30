@@ -200,10 +200,6 @@ public class EventActivity extends android.app.ListActivity implements
 		case R.id.actualise:
 			new ThreadParse().execute();
 			return true;
-		case R.id.flux:
-			Intent intent = new Intent(this, FluxActivity.class);
-			startActivity(intent);
-			break;
 		default:
 			break;
 		}

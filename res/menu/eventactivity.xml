@@ -7,8 +7,4 @@
     <item android:id="@+id/filtre"
     	android:title="@string/filtre"
 		android:icon="@drawable/icon" />
-		
-	<item android:id="@+id/flux"
-		android:title="@string/flux"
-		android:icon="@drawable/icon" />
 </menu>
