@@ -539,7 +539,7 @@ public class EventActivity extends android.app.ListActivity implements
 						Toast.LENGTH_SHORT).show();
 			} else {
 				// Erreur dans le parsing
-				Toast.makeText(EventActivity.this, R.string.update_fail,
+				Toast.makeText(EventActivity.this, R.string.update_event_fail,
 						Toast.LENGTH_SHORT).show();
 			}
 		}
