@@ -64,6 +64,8 @@ public class EventActivity extends android.app.ListActivity implements
 	private List<Item> items = new LinkedList<Item>();
 	// Item selectionné quand on clique dessus
 	private Item sItem;
+	// Liste de tous les items à afficher
+	private List<Item> itemsD = new LinkedList<Item>();
 
 	private EfficientAdapter mAdapter;
 
@@ -155,7 +157,9 @@ public class EventActivity extends android.app.ListActivity implements
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// To Do.
+									//on filtre la liste ItemsD et on notify le changement
+									filterItems();
+									mAdapter.notifyDataSetChanged();
 								}
 							}).create();
 			break;
@@ -346,6 +350,37 @@ public class EventActivity extends android.app.ListActivity implements
 	}
 
 	/**
+	 * On filtre les évènements à afficher. Ajout des items non filtrés dans la
+	 * liste itemsD
+	 */
+	private void filterItems() {
+		itemsD = new LinkedList<Item>();
+		for (int i = 0; i < items.size(); i++)
+			if (isInFilter(items.get(i).getCategory()))
+				itemsD.add(items.get(i));
+	}
+
+	/**
+	 * Fonction qui vérifie si la categorie est activé dans le filtre ou non
+	 * 
+	 * @param category
+	 *            categorie à vérifier
+	 * @return vrai si la categorie est dans le filtre faux sinon
+	 */
+	private boolean isInFilter(String category) {
+		int i;
+		for (i = 0; i < listCategory.length; i++) {
+			// On fais la comparaison sur les chaines sans accents, en
+			// minuscule et sans caractères spéciaux
+			if (sansAccent(
+					listCategory[i].toString().toLowerCase().replace(" ", "_"))
+					.equals(sansAccent(category.toLowerCase().replace(" ", "_"))))
+				break;
+		}
+		return listCheckedItem[i];
+	}
+
+	/**
 	 * Asynctask to avoid hanging activity .
 	 */
 	private class ThreadParse extends AsyncTask<Void, Void, Boolean> {
@@ -430,6 +465,14 @@ public class EventActivity extends android.app.ListActivity implements
 		}
 
 		/**
+		 * Initilisation de la liste à afficher
+		 */
+		private void initItemsD() {
+			for (int i = 0; i < items.size(); i++)
+				itemsD.add(items.get(i));
+		}
+
+		/**
 		 * On exécute cette fonction après avoir fait le parsing des flux RSS
 		 */
 		@Override
@@ -442,6 +485,7 @@ public class EventActivity extends android.app.ListActivity implements
 				initStrImg();
 				initListCategory();
 				initListCheckedItem();
+				initItemsD();
 				Toast.makeText(EventActivity.this, R.string.update_success,
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -476,7 +520,7 @@ public class EventActivity extends android.app.ListActivity implements
 		 * @see android.widget.ListAdapter#getCount()
 		 */
 		public int getCount() {
-			return items.size();
+			return itemsD.size();
 		}
 
 		/**
@@ -501,70 +545,43 @@ public class EventActivity extends android.app.ListActivity implements
 		}
 
 		/**
-		 * Fonction qui vérifie si la categorie est activé dans le filtre ou non
-		 * 
-		 * @param category
-		 *            categorie à vérifier
-		 * @return vrai si la categorie est dans le filtre faux sinon
-		 */
-		private boolean isInFilter(String category) {
-			int i;
-			for (i = 0; i < listCategory.length; i++) {
-				// On fais la comparaison sur les chaines sans accents, en
-				// minuscule et sans caractères spéciaux
-				if (sansAccent(
-						listCategory[i].toString().toLowerCase()
-								.replace(" ", "_")).equals(
-						sansAccent(category.toLowerCase().replace(" ", "_"))))
-					break;
-			}
-			return listCheckedItem[i];
-		}
-
-		/**
 		 * Make a view to hold each row.
 		 * 
 		 * @see android.widget.ListAdapter#getView(int, android.view.View,
 		 *      android.view.ViewGroup)
 		 */
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// On vérifie au préalable si l'item est à afficher ou non en
-			// fonction du filtre
-			if (isInFilter(items.get(position).getCategory())) {
-				// A ViewHolder keeps references to children views to avoid
-				// unneccessary calls to findViewById() on each row.
-				ViewHolder holder;
+			// A ViewHolder keeps references to children views to avoid
+			// unneccessary calls to findViewById() on each row.
+			ViewHolder holder;
 
-				// When convertView is not null, we can reuse it directly, there
-				// is
-				// no need to reinflate it. We only inflate a new View when the
-				// convertView supplied by ListView is null.
-				if (convertView == null) {
-					convertView = mInflater.inflate(
-							R.layout.list_item_icon_text, null);
-					// Creates a ViewHolder and store references to the two
-					// children
-					// views we want to bind data to.
-					holder = new ViewHolder();
-					holder.text = (TextView) convertView
-							.findViewById(R.id.text);
-					holder.icon = (ImageView) convertView
-							.findViewById(R.id.icon);
+			// When convertView is not null, we can reuse it directly, there
+			// is
+			// no need to reinflate it. We only inflate a new View when the
+			// convertView supplied by ListView is null.
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.list_item_icon_text,
+						null);
+				// Creates a ViewHolder and store references to the two
+				// children
+				// views we want to bind data to.
+				holder = new ViewHolder();
+				holder.text = (TextView) convertView.findViewById(R.id.text);
+				holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 
-					convertView.setTag(holder);
-				} else {
-					// Get the ViewHolder back to get fast access to the
-					// TextView
-					// and the ImageView.
-					holder = (ViewHolder) convertView.getTag();
-				}
-
-				Bitmap icon = strImg.get(items.get(position).getCategory());
-
-				// Bind the data efficiently with the holder.
-				holder.text.setText(items.get(position).getTitle());
-				holder.icon.setImageBitmap(icon);
+				convertView.setTag(holder);
+			} else {
+				// Get the ViewHolder back to get fast access to the
+				// TextView
+				// and the ImageView.
+				holder = (ViewHolder) convertView.getTag();
 			}
+
+			Bitmap icon = strImg.get(itemsD.get(position).getCategory());
+
+			// Bind the data efficiently with the holder.
+			holder.text.setText(itemsD.get(position).getTitle());
+			holder.icon.setImageBitmap(icon);
 			return convertView;
 		}
 	}
