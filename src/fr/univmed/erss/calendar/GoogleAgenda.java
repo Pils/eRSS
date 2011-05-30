@@ -1,14 +1,13 @@
 package fr.univmed.erss.calendar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import fr.univmed.erss.object.Item;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import fr.univmed.erss.object.Item;
 
 
 /**
@@ -78,7 +77,7 @@ public class GoogleAgenda {
         eventValues.put("eventLocation", Location);
         
         long startTime = System.currentTimeMillis() + 1000 * 60 * 60;
-        long endTime = System.currentTimeMillis() + 1000 * 60 * 60 * 2;
+        long endTime = System.currentTimeMillis() + 1000 * 60 * 60 * 4;
 
         eventValues.put("dtstart", startTime);
         eventValues.put("dtend", endTime);
@@ -106,8 +105,7 @@ public class GoogleAgenda {
 	        String selection = "selected=1";
 	        String path = "calendars";
 
-	        Cursor managedCursor = getCalendarManagedCursor(projection, selection,
-	                path);
+	        Cursor managedCursor = getCalendarManagedCursor(projection, selection, path);
 
 	        if(managedCursor != null && managedCursor.moveToFirst()){
 
@@ -155,13 +153,19 @@ public class GoogleAgenda {
 	                String id = managedCursor.getString(managedCursor.getColumnIndex("_id"));
 	                String title = managedCursor.getString(managedCursor.getColumnIndex("displayName"));
 	                
-	                if( id.equals("1")){
-	                    sync_account = managedCursor.getString(managedCursor.getColumnIndex("_sync_account"));
+	                
+	                sync_account = managedCursor.getString(managedCursor.getColumnIndex("_sync_account"));
+	               
+	                /* On affiche uniquement les calendriers de GoogleCalendar
+	                 * sauf ceux par défaut qu'on ne peut pas modifier :
+	                 * jours fériés et numéros de semaines
+	                 */
+	                if(sync_account.endsWith("@gmail.com") && !title.equals("Numéros de semaine")
+	                		&& !title.equals("Jours fériés en France")){
+	                	listNames.add(title);
 	                }
 	                
-	                //calendars.put(id, title);
-	                listNames.add(title);
-	                
+	                Log.i(LOG_TAG, "Display Name : "+title);
 	                Log.i(LOG_TAG, "**END Calendar Description**");
 	            }while (managedCursor.moveToNext());
 	            

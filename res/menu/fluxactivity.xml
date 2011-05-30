@@ -3,8 +3,4 @@
     <item android:id="@+id/actualise"
         android:title="@string/actualise"
         android:icon="@drawable/icon" />
-        
-	<item android:id="@+id/evenementliste"
-		android:title="@string/evenementListe"
-		android:icon="@drawable/evenement" />
 </menu>

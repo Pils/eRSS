@@ -103,9 +103,6 @@ public class ItemActivity extends Activity{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		/*On regarde la source du clic*/
 		switch (item.getItemId()) {
-			case R.id.retour:	//Si il s'agit du bouton retour
-				Intent intent = new Intent(this, EventActivity.class);	// On lance une nouvelle EventActivity
-				startActivity(intent);
 			case R.id.ajouter:	// Si il s'agit du bouton calendar
 				/* Gestion du calendrier avec ajout de l'item courant
 				 * création d'un agenda local
@@ -127,17 +124,30 @@ public class ItemActivity extends Activity{
 			/* Création du dialog de calendars.
 			 * A noté qu'on l'a initialisé au préalable dans onPostExecute())
 			*/
+			listCal=agenda.listAllCalendarDetails();
 			dialog = new AlertDialog.Builder(ItemActivity.this)
 					.setTitle(R.string.calendar_dialog_title)
-					.setSingleChoiceItems(listCal=agenda.listAllCalendarDetails(), selectedCalendar,
+					.setSingleChoiceItems(listCal, selectedCalendar,
 							new DialogInterface.OnClickListener(){
 								public void onClick(DialogInterface dialog, int selected) {
 									Toast.makeText(getApplicationContext(),
-									(String)listCal[selectedCalendar],
+									(String)listCal[selected] + "  et  " + selected,
 									Toast.LENGTH_SHORT).show();
-									agenda.createEvent( agenda.findUpdateCalendar((String)listCal[selected]), myItem);
 								}
-							}).create();
+							})
+					.setPositiveButton(R.string.alert_dialog_ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int selected) {
+									agenda.createEvent(agenda.findUpdateCalendar(
+											(String)listCal[selectedCalendar]), myItem);
+											}		
+							})
+					.setNegativeButton(R.string.alert_dialog_cancel,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+								}
+							})
+					.create();
 			break;
 		default:
 			dialog = null;

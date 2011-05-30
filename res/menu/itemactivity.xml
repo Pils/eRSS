@@ -3,8 +3,4 @@
 	<item android:id="@+id/ajouter"
 		android:title="@string/ajout"
 		android:icon="@drawable/calendar"></item>
-	
-	<item android:id="@+id/retour"
-		android:title="@string/retour"
-		android:icon="@drawable/retour"/>
 </menu>
