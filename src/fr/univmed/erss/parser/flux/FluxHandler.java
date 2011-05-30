@@ -32,7 +32,6 @@ public class FluxHandler extends DefaultHandler{
 	private Boolean collect = false;
 	private List<Flux> fluxs = null;
 	
-	
 	public List<Flux> getFluxs() {
 		return fluxs;
 	}

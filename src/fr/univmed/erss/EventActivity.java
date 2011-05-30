@@ -15,6 +15,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fr.univmed.erss.database.ErssDB;
+import fr.univmed.erss.database.table.FluxTable;
 import fr.univmed.erss.object.Flux;
 import fr.univmed.erss.object.Item;
 import fr.univmed.erss.parser.ItemHandler;
@@ -23,6 +25,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -66,6 +69,11 @@ public class EventActivity extends android.app.ListActivity implements
 	private Item sItem;
 	// Liste de tous les items à afficher
 	private List<Item> itemsD = new LinkedList<Item>();
+	// Contient la liste des flux
+	private List<Flux> fluxs = new LinkedList<Flux>();
+	// Base de donnée des flux
+	private ErssDB erssDB;
+	private SQLiteDatabase db;
 
 	private EfficientAdapter mAdapter;
 
@@ -157,7 +165,8 @@ public class EventActivity extends android.app.ListActivity implements
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									//on filtre la liste ItemsD et on notify le changement
+									// on filtre la liste ItemsD et on notify le
+									// changement
 									filterItems();
 									mAdapter.notifyDataSetChanged();
 								}
@@ -202,25 +211,51 @@ public class EventActivity extends android.app.ListActivity implements
 	}
 
 	/**
+	 * Initilisation de la liste des flux depuis la base de donnée
+	 */
+	private void initFluxs() {
+		/* Acquisition de la liste des fluxs a partir de la database */
+		erssDB = new ErssDB(this);
+		this.erssDB.Open();
+		db = erssDB.getDatabase();
+		fluxs = FluxTable.getFluxList(db);
+		this.erssDB.Close();
+	}
+
+	/**
+	 *  Parsing du flux à l'url source
+	 * @param source Url source du flux
+	 * @param handler récupération des items avec ce handler
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	private void parseFlux(URL source, ItemHandler handler) throws ParserConfigurationException,
+			SAXException, IOException {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		SAXParser xmlReader;
+		xmlReader = factory.newSAXParser();
+		InputSource inputSourceUrl = new InputSource(source.toString());
+		xmlReader.parse(inputSourceUrl, handler);
+	}
+
+	/**
 	 * On lance le parsing du flux
-	 * 
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
 	 */
 	private void retrieveData() throws ParserConfigurationException,
 			SAXException, IOException {
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		SAXParser xmlReader;
-		xmlReader = factory.newSAXParser();
+		initFluxs();
+		
 		ItemHandler handler = new ItemHandler();
-
-		// TO DO
-		URL source = new URL(Flux.URL_AGENDA);
-		InputSource inputSourceUrl = new InputSource(source.toString());
-		xmlReader.parse(inputSourceUrl, handler);
-
-		items = handler.getItems();
+		for (int i = 0; i < fluxs.size(); i++){
+			if(fluxs.get(i).isChecked()){
+				parseFlux(new URL(fluxs.get(i).getUrl()) , handler);
+				items.addAll(handler.getItems());
+			}
+		}
 	}
 
 	/**
@@ -370,6 +405,8 @@ public class EventActivity extends android.app.ListActivity implements
 	private boolean isInFilter(String category) {
 		int i;
 		for (i = 0; i < listCategory.length; i++) {
+			if(category==null)
+				return true;
 			// On fais la comparaison sur les chaines sans accents, en
 			// minuscule et sans caractères spéciaux
 			if (sansAccent(
@@ -377,6 +414,8 @@ public class EventActivity extends android.app.ListActivity implements
 					.equals(sansAccent(category.toLowerCase().replace(" ", "_"))))
 				break;
 		}
+		if(listCategory.length==0)
+			return true;
 		return listCheckedItem[i];
 	}
 

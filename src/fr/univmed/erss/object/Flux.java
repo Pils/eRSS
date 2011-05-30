@@ -12,11 +12,11 @@ public class Flux {
 	public final static String URL_HOTEL = "http://romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml";
 	public final static String URL_AGENDA = "http://romain.de-luca.perso.esil.univmed.fr/Agenda_Culturel_Marseille.xml";
 	
-	public long id;
-	public String name;
-	public String url;
+	private long id;
+	private String name;
+	private String url;
 
-	public boolean checked;//True si le flux est à suivre, False sinon
+	private boolean checked;//True si le flux est à suivre, False sinon
 	
 	//-----------------------------------------------------//
 	//					Constructeurs					   //
