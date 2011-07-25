@@ -4,7 +4,3 @@ Fichier de test.
 romain.de-luca.perso.esil.univmed.fr/promotions_hotels.xml
 
 
-
-@Xavier, le item activity est lancé après un clic court sur un evenement de la EventActivity (et non un clic long)
-un clic long donnera acces à des options plus tard. Tu peux utiliser un objet Item plutot que plusieurs String,
-plus propre pour le code.
